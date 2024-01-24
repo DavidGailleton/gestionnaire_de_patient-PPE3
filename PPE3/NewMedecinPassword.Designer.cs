@@ -32,9 +32,9 @@
             label2 = new Label();
             label3 = new Label();
             button1 = new Button();
-            original_maskedTextBox = new MaskedTextBox();
-            new_maskedTextBox = new MaskedTextBox();
-            confirmeNew_maskedTextBox = new MaskedTextBox();
+            original_maskedTextBox = new TextBox();
+            new_maskedTextBox = new TextBox();
+            confirmeNew_maskedTextBox = new TextBox();
             SuspendLayout();
             // 
             // label1
@@ -78,24 +78,27 @@
             // 
             original_maskedTextBox.Location = new Point(192, 134);
             original_maskedTextBox.Name = "original_maskedTextBox";
+            original_maskedTextBox.PasswordChar = '*';
             original_maskedTextBox.Size = new Size(197, 27);
-            original_maskedTextBox.TabIndex = 7;
+            original_maskedTextBox.TabIndex = 10;
             // 
             // new_maskedTextBox
             // 
             new_maskedTextBox.Location = new Point(192, 212);
             new_maskedTextBox.Name = "new_maskedTextBox";
+            new_maskedTextBox.PasswordChar = '*';
             new_maskedTextBox.Size = new Size(197, 27);
-            new_maskedTextBox.TabIndex = 8;
+            new_maskedTextBox.TabIndex = 11;
             // 
             // confirmeNew_maskedTextBox
             // 
-            confirmeNew_maskedTextBox.Location = new Point(192, 283);
+            confirmeNew_maskedTextBox.Location = new Point(192, 294);
             confirmeNew_maskedTextBox.Name = "confirmeNew_maskedTextBox";
+            confirmeNew_maskedTextBox.PasswordChar = '*';
             confirmeNew_maskedTextBox.Size = new Size(197, 27);
-            confirmeNew_maskedTextBox.TabIndex = 9;
+            confirmeNew_maskedTextBox.TabIndex = 12;
             // 
-            // NewPassword
+            // NewMedecinPassword
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -107,8 +110,10 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Name = "NewPassword";
+            Name = "NewMedecinPassword";
             Text = "NewPassword";
+            FormClosing += NewMedecinPassword_FormClosing;
+            FormClosed += NewMedecinPassword_FormClosed;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -119,8 +124,8 @@
         private Label label2;
         private Label label3;
         private Button button1;
-        private MaskedTextBox original_maskedTextBox;
-        private MaskedTextBox new_maskedTextBox;
-        private MaskedTextBox confirmeNew_maskedTextBox;
+        private TextBox original_maskedTextBox;
+        private TextBox new_maskedTextBox;
+        private TextBox confirmeNew_maskedTextBox;
     }
 }

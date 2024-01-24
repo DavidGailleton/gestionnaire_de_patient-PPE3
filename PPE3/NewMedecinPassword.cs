@@ -40,7 +40,7 @@ namespace PPE3
                 }
                 else
                 {
-                    MessageBox.Show("La confirmation du nouveau mot de passe n'est pas valide");
+                    MessageBox.Show("Le mot de passe original ou la confirmation du nouveau mot de passe n'est pas valide");
                 }
             }
             else
@@ -48,5 +48,17 @@ namespace PPE3
                 MessageBox.Show("Mot de passe original incorrect");
             }
         }
+
+        private void NewMedecinPassword_FormClosed(object sender, FormClosedEventArgs e)
+        {
+        }
+
+
+        private void NewMedecinPassword_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.loginPage.Show();
+            this.Close();
+        }
+        
     }
 }

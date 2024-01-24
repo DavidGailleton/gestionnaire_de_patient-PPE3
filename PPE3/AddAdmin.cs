@@ -35,6 +35,7 @@ namespace PPE3_DEBUG
                 {
                     AdminPage adminPage = new(login);
                     adminPage.Show();
+                    this.Close();
                 }
                 else
                 {

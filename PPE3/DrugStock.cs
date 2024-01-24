@@ -51,7 +51,7 @@ namespace PPE3
             if (e.RowIndex >= 0 && e.RowIndex < drugList_dataGridView.RowCount - 1)
             {
                 DataGridViewRow selectedRow = this.drugList_dataGridView.Rows[e.RowIndex];
-                Medicament selectedMedic = new Medicament(selectedRow.Cells["libelle"].Value.ToString(), selectedRow.Cells["contre_indication"].Value.ToString(), (int)selectedRow.Cells["quantité"].Value);
+                Medicament selectedMedic = new Medicament(selectedRow.Cells["libelle"].Value.ToString(), selectedRow.Cells["contre_indication"].Value.ToString(), (int)selectedRow.Cells["Quantite"].Value);
                 this.selectedMedic = selectedMedic;
             }
         }

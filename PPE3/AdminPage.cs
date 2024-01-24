@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -29,14 +30,14 @@ namespace PPE3
             this.dataGridView2.DataSource = ada.SelectAdminsFromDB();
         }
 
-        private void AddButton_Click(object sender, EventArgs e)
+        private void AddMedecinButton_Click(object sender, EventArgs e)
         {
             AddMedecin addMedecin = new AddMedecin(login);
             addMedecin.Show();
             this.Close();
         }
 
-        private void DeleteButton_Click(object sender, EventArgs e)
+        private void DeleteMedecinButton_Click(object sender, EventArgs e)
         {
             if (selectedMedecin == null)
             {
@@ -44,16 +45,16 @@ namespace PPE3
             }
             else
             {
-                MedecinDataAccess dataAccess = new MedecinDataAccess();
-                string result = dataAccess.DeleteMedecinInDB(selectedMedecin);
-                if (result == "Success")
+                bool result = Convert.ToBoolean(MessageBox.Show("Voulez vous réellement supprimer cette utilisateur ?", "test", MessageBoxButtons.YesNo));
+                if (result = true)
                 {
-                    MessageBox.Show("Utilisateur supprimé avec success");
+                    MedecinDataAccess dataAccess = new MedecinDataAccess();
+                    dataAccess.DeleteMedecinInDB(selectedMedecin);
+
+                    this.dataGridView1.DataSource = dataAccess.SelectMedecinsFromDB();
+
                 }
-                else
-                {
-                    MessageBox.Show("Une erreur est survenue");
-                }
+                
             }
         }
 
@@ -62,7 +63,7 @@ namespace PPE3
             if (e.RowIndex >= 0 & e.RowIndex < dataGridView1.RowCount - 1)
             {
                 DataGridViewRow selectedRow = this.dataGridView1.Rows[e.RowIndex];
-                DateTime naissance = (DateTime)selectedRow.Cells["Naissance"].Value;
+                DateTime naissance = (DateTime)selectedRow.Cells["date_de_naissance"].Value;
                 string nom = selectedRow.Cells["Nom"].Value.ToString();
                 string prenom = selectedRow.Cells["Prenom"].Value.ToString();
                 string login = selectedRow.Cells["login"].Value.ToString();
@@ -84,10 +85,11 @@ namespace PPE3
             func.Search(textBox2, dataGridView2);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void addAdmin_button_Click(object sender, EventArgs e)
         {
             AddAdmin addAdmin = new(login);
             addAdmin.Show();
+            this.Close();
         }
 
         private void AdminPage_Load(object sender, EventArgs e)
@@ -100,7 +102,7 @@ namespace PPE3
             login.Show();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void deleteAdmin_button_Click(object sender, EventArgs e)
         {
             if (selectedAdmin == null)
             {
@@ -116,6 +118,19 @@ namespace PPE3
                     this.dataGridView2.DataSource = dataAccess.SelectAdminsFromDB();
 
                 }
+            }
+        }
+
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 & e.RowIndex < dataGridView2.RowCount - 1)
+            {
+                DataGridViewRow selectedRow = this.dataGridView2.Rows[e.RowIndex];
+                string login = selectedRow.Cells["login"].Value.ToString();
+                Admin admin = new(login);
+
+
+                this.selectedAdmin = admin;
             }
         }
     }

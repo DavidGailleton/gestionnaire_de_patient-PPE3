@@ -103,11 +103,11 @@ namespace PPE3.DataAccess
             using (MySqlConnection conn = new(connectionString))
             {
                 conn.Open();
-                string query = "UPDATE admin SET password_adm = @password & first_connection = 0 WHERE admin.login_adm = @login";
+                string query = "UPDATE admin SET password_adm = @password, first_connection_adm = 0 WHERE login_adm = @login";
                 using (MySqlCommand command = new MySqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("@login", login);
-                    command.Parameters.AddWithValue("@password", password);
+                    command.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
                     int result = command.ExecuteNonQuery();
                     conn.Close();
                     if (result < 0)
@@ -133,6 +133,28 @@ namespace PPE3.DataAccess
                     int result = command.ExecuteNonQuery();
                     conn.Close();
                     if (result < 0)
+                    {
+                        return "Error";
+                    }
+                    else
+                    {
+                        return "Success";
+                    }
+                }
+            }
+        }
+        public string VerifyFirstConnection(string login)
+        {
+            using (MySqlConnection conn = new(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT first_connection_adm FROM admin WHERE login_adm = @login";
+                using (MySqlCommand command = new MySqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("@login", login);
+                    int result = Convert.ToInt32(command.ExecuteScalar());
+                    conn.Close();
+                    if (result == 0)
                     {
                         return "Error";
                     }

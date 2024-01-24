@@ -58,6 +58,7 @@
             // 
             password_maskedTextBox.Location = new Point(209, 213);
             password_maskedTextBox.Name = "password_maskedTextBox";
+            password_maskedTextBox.PasswordChar = '*';
             password_maskedTextBox.Size = new Size(218, 27);
             password_maskedTextBox.TabIndex = 17;
             // 

@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             dataGridView1 = new DataGridView();
-            addButton = new Button();
-            deleteButton = new Button();
+            addMedecinButton = new Button();
+            deleteMedecinButton = new Button();
             textBox1 = new TextBox();
             label1 = new Label();
             dataGridView2 = new DataGridView();
             label2 = new Label();
             textBox2 = new TextBox();
-            button1 = new Button();
-            button2 = new Button();
+            deleteAdmin_button = new Button();
+            addAdmin_button = new Button();
             label3 = new Label();
             label4 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
@@ -60,25 +60,25 @@
             dataGridView1.CellContentDoubleClick += DataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += DataGridView1_CellContentClick;
             // 
-            // addButton
+            // addMedecinButton
             // 
-            addButton.Location = new Point(254, 79);
-            addButton.Name = "addButton";
-            addButton.Size = new Size(146, 60);
-            addButton.TabIndex = 1;
-            addButton.Text = "Ajouter un utilisateur";
-            addButton.UseVisualStyleBackColor = true;
-            addButton.Click += AddButton_Click;
+            addMedecinButton.Location = new Point(254, 79);
+            addMedecinButton.Name = "addMedecinButton";
+            addMedecinButton.Size = new Size(146, 60);
+            addMedecinButton.TabIndex = 1;
+            addMedecinButton.Text = "Ajouter un utilisateur";
+            addMedecinButton.UseVisualStyleBackColor = true;
+            addMedecinButton.Click += AddMedecinButton_Click;
             // 
-            // deleteButton
+            // deleteMedecinButton
             // 
-            deleteButton.Location = new Point(254, 165);
-            deleteButton.Name = "deleteButton";
-            deleteButton.Size = new Size(146, 60);
-            deleteButton.TabIndex = 3;
-            deleteButton.Text = "Supprimer un utilisateur";
-            deleteButton.UseVisualStyleBackColor = true;
-            deleteButton.Click += DeleteButton_Click;
+            deleteMedecinButton.Location = new Point(254, 165);
+            deleteMedecinButton.Name = "deleteMedecinButton";
+            deleteMedecinButton.Size = new Size(146, 60);
+            deleteMedecinButton.TabIndex = 3;
+            deleteMedecinButton.Text = "Supprimer un utilisateur";
+            deleteMedecinButton.UseVisualStyleBackColor = true;
+            deleteMedecinButton.Click += DeleteMedecinButton_Click;
             // 
             // textBox1
             // 
@@ -106,6 +106,7 @@
             dataGridView2.RowTemplate.Height = 29;
             dataGridView2.Size = new Size(642, 490);
             dataGridView2.TabIndex = 6;
+            dataGridView2.CellClick += dataGridView2_CellClick;
             // 
             // label2
             // 
@@ -124,25 +125,25 @@
             textBox2.TabIndex = 9;
             textBox2.TextChanged += textBox2_TextChanged;
             // 
-            // button1
+            // deleteAdmin_button
             // 
-            button1.Location = new Point(906, 165);
-            button1.Name = "button1";
-            button1.Size = new Size(146, 60);
-            button1.TabIndex = 8;
-            button1.Text = "Supprimer un administrateur";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            deleteAdmin_button.Location = new Point(906, 165);
+            deleteAdmin_button.Name = "deleteAdmin_button";
+            deleteAdmin_button.Size = new Size(146, 60);
+            deleteAdmin_button.TabIndex = 8;
+            deleteAdmin_button.Text = "Supprimer un administrateur";
+            deleteAdmin_button.UseVisualStyleBackColor = true;
+            deleteAdmin_button.Click += deleteAdmin_button_Click;
             // 
-            // button2
+            // addAdmin_button
             // 
-            button2.Location = new Point(906, 79);
-            button2.Name = "button2";
-            button2.Size = new Size(146, 60);
-            button2.TabIndex = 7;
-            button2.Text = "Ajouter un administrateur";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            addAdmin_button.Location = new Point(906, 79);
+            addAdmin_button.Name = "addAdmin_button";
+            addAdmin_button.Size = new Size(146, 60);
+            addAdmin_button.TabIndex = 7;
+            addAdmin_button.Text = "Ajouter un administrateur";
+            addAdmin_button.UseVisualStyleBackColor = true;
+            addAdmin_button.Click += addAdmin_button_Click;
             // 
             // label3
             // 
@@ -171,13 +172,13 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(textBox2);
-            Controls.Add(button1);
-            Controls.Add(button2);
+            Controls.Add(deleteAdmin_button);
+            Controls.Add(addAdmin_button);
             Controls.Add(dataGridView2);
             Controls.Add(label1);
             Controls.Add(textBox1);
-            Controls.Add(deleteButton);
-            Controls.Add(addButton);
+            Controls.Add(deleteMedecinButton);
+            Controls.Add(addMedecinButton);
             Controls.Add(dataGridView1);
             Name = "AdminPage";
             Text = "AdminPage";
@@ -192,15 +193,15 @@
         #endregion
 
         private DataGridView dataGridView1;
-        private Button addButton;
-        private Button deleteButton;
+        private Button addMedecinButton;
+        private Button deleteMedecinButton;
         private TextBox textBox1;
         private Label label1;
         private DataGridView dataGridView2;
         private Label label2;
         private TextBox textBox2;
-        private Button button1;
-        private Button button2;
+        private Button deleteAdmin_button;
+        private Button addAdmin_button;
         private Label label3;
         private Label label4;
     }

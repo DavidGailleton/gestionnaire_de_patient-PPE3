@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using PPE3.DataAccess;
 using PPE3.Object;
+using PPE3_DEBUG;
 
 namespace PPE3
 {
@@ -58,6 +59,13 @@ namespace PPE3
                 if (result == false)
                 {
                     MessageBox.Show("login ou mot de passe incorrect");
+                }
+                else if (dataAccess.VerifyFirstConnection(login) == "Success")
+                {
+                    NewAdminPassword newPassword = new(login, this);
+                    newPassword.Show();
+                    this.Hide();
+
                 }
                 else if (result == true)
                 {

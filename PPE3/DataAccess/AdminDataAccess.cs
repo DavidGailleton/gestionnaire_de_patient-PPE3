@@ -64,7 +64,7 @@ namespace PPE3.DataAccess
                 {
                     command1.Parameters.AddWithValue("@login", login);
                     string result = Convert.ToString(command1.ExecuteScalar());
-                    if (result != null && BCrypt.Net.BCrypt.EnhancedVerify(pass, result) == true)
+                    if (result != "" && result != null && BCrypt.Net.BCrypt.EnhancedVerify(pass, result) == true)
                     {
                         return true;
                     }

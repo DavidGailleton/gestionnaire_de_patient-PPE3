@@ -178,7 +178,7 @@ namespace PPE3.DataAccess
                 {
                     command1.Parameters.AddWithValue("@login", login);
                     string result = Convert.ToString(command1.ExecuteScalar());
-                    if (result != null && BCrypt.Net.BCrypt.EnhancedVerify(pass, result) == true)
+                    if (result != null && result != "" && BCrypt.Net.BCrypt.EnhancedVerify(pass, result) == true)
                     {
                         using (MySqlCommand command2 = new MySqlCommand(query2, conn))
                         {

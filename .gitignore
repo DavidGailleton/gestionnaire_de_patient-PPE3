@@ -306,6 +306,9 @@ paket-files/
 # CodeRush
 .cr/
 
+# Obsidian
+.obsidian/
+
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc

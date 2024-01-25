@@ -30,12 +30,23 @@ namespace PPE3_DEBUG
             {
                 if (new_maskedTextBox.Text == confirmeNew_maskedTextBox.Text)
                 {
-                    string result2 = dataAccess.UpdateAdminPasswordInDB(login, new_maskedTextBox.Text);
-                    if (result2 == "Success")
+                    if (new_maskedTextBox.TextLength < 8)
                     {
-                        MessageBox.Show("Nouveau mot de passe établie");
-                        loginPage.Show();
-                        this.Close();
+                        string result2 = dataAccess.UpdateAdminPasswordInDB(login, new_maskedTextBox.Text);
+                        if (result2 == "Success")
+                        {
+                            MessageBox.Show("Nouveau mot de passe établie");
+                            loginPage.Show();
+                            this.Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Une erreur inconnu c'est produite");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Le mot de passe doit contenir minimum 8 caractères");
                     }
                 }
                 else

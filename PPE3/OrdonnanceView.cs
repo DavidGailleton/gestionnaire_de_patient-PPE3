@@ -38,13 +38,13 @@ namespace PPE3
 
             DateLabel.Text = "Le " + ordonnance.Date_creation.Day + " " + ordonnance.Date_creation.Month + " " + ordonnance.Date_creation.Year;
 
-            MedicamentLabel.Text = ordonnance.Medicament.Libelle + ", " + ordonnance.Posologie + " - " + ordonnance.Instruction + " " + ordonnance.Duree;
+            MedicamentLabel.Text = ordonnance.Medicament.Libelle + ", " + ordonnance.Posologie + " - " + ordonnance.Instruction + " " + ordonnance.Duree + " jours";
         }
 
         private void print_button_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.FileName = "Ordonnance_" + ordonnance.Patient.Nom + "_" + ordonnance.Patient.Prenom + "_" + ordonnance.Date_creation.Month.ToString();
+            saveFileDialog.FileName = "Ordonnance_" + ordonnance.Patient.Nom + "_" + ordonnance.Patient.Prenom + "_" + ordonnance.Date_creation.Year.ToString() + "_" + ordonnance.Date_creation.Month.ToString() + "_" + ordonnance.Date_creation.Day.ToString();
             saveFileDialog.Filter = "PDF Files|*.pdf";
             saveFileDialog.DefaultExt = "pdf";
             saveFileDialog.InitialDirectory = @"%Download%";
@@ -61,7 +61,7 @@ namespace PPE3
                         Paragraph medecinNom = new Paragraph("Docteur " + ordonnance.Medecin.Nom);
                         Paragraph patientNom = new Paragraph(genre + " " + ordonnance.Patient.Nom + " " + ordonnance.Patient.Prenom);
                         Paragraph date = new Paragraph("Le " + ordonnance.Date_creation.Day + " " + ordonnance.Date_creation.Month + " " + ordonnance.Date_creation.Year);
-                        Paragraph medic = new Paragraph(ordonnance.Medicament.Libelle + ", " + ordonnance.Posologie + " - " + ordonnance.Instruction + " " + ordonnance.Duree);
+                        Paragraph medic = new Paragraph(ordonnance.Medicament.Libelle + ", " + ordonnance.Posologie + " - " + ordonnance.Instruction + " " + ordonnance.Duree + " jours");
 
                         document.Add(medecinNom.SetTextAlignment(TextAlignment.LEFT));
                         document.Add(date.SetTextAlignment(TextAlignment.RIGHT));

@@ -34,7 +34,6 @@ namespace PPE3
                     if (result2 == "Success")
                     {
                         MessageBox.Show("Nouveau mot de passe établie");
-                        loginPage.Show();
                         this.Close();
                     }
                 }
@@ -57,7 +56,6 @@ namespace PPE3
         private void NewMedecinPassword_FormClosing(object sender, FormClosingEventArgs e)
         {
             this.loginPage.Show();
-            this.Close();
         }
         
     }

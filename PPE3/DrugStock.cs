@@ -100,7 +100,7 @@ namespace PPE3
             if (this.selectedMedic != null)
             {
                 MedicamentDataAccess dataAccess = new MedicamentDataAccess();
-                string result = dataAccess.RemoveMedicamentStockInDB(this.selectedMedic, this.qteToAdd);
+                string result = dataAccess.RemoveMedicamentStockInDB(this.selectedMedic, (int)this.stockRm_numericUpDown.Value);
                 if (result == "Success")
                 {
                     MessageBox.Show("Stock supprimé !");

@@ -44,7 +44,7 @@ namespace PPE3
         private void print_button_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.FileName = "Ordonnance_" + ordonnance.Patient.Nom + "_" + ordonnance.Patient.Prenom + "_" + ordonnance.Date_creation.Date.ToString();
+            saveFileDialog.FileName = "Ordonnance_" + ordonnance.Patient.Nom + "_" + ordonnance.Patient.Prenom + "_" + ordonnance.Date_creation.Month.ToString();
             saveFileDialog.Filter = "PDF Files|*.pdf";
             saveFileDialog.DefaultExt = "pdf";
             saveFileDialog.InitialDirectory = @"%Download%";

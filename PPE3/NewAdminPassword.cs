@@ -24,19 +24,28 @@ namespace PPE3_DEBUG
         }
         private void button1_Click(object sender, EventArgs e)
         {
+            
+        }
+
+        private void NewAdminPassword_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            this.loginPage.Show();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
             AdminDataAccess dataAccess = new();
             string result = dataAccess.VerifyPassword(this.login, original_maskedTextBox.Text.ToString());
             if (result == "Success")
             {
                 if (new_maskedTextBox.Text == confirmeNew_maskedTextBox.Text)
                 {
-                    if (new_maskedTextBox.TextLength < 8)
+                    if (new_maskedTextBox.TextLength > 8)
                     {
                         string result2 = dataAccess.UpdateAdminPasswordInDB(login, new_maskedTextBox.Text);
                         if (result2 == "Success")
                         {
                             MessageBox.Show("Nouveau mot de passe établie");
-                            loginPage.Show();
                             this.Close();
                         }
                         else
@@ -59,12 +68,5 @@ namespace PPE3_DEBUG
                 MessageBox.Show("Mot de passe original incorrect");
             }
         }
-
-        private void NewMedecinPassword_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            loginPage.Show();
-            this.Close();
-        }
-
     }
 }

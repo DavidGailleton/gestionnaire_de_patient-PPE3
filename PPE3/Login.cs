@@ -22,16 +22,20 @@ namespace PPE3
 
         private void LoginButton_Click(object sender, EventArgs e)
         {
+            // connexion sur la base utilisateur
             if (comboBox1.Text == "Utilisateur")
             {
                 string login = usernameTextBox.Text;
                 string password = passwordTextBox.Text;
                 MedecinDataAccess dataAccess = new MedecinDataAccess();
+                // Requete vérifiant la si l'identifiant et le mot de passe de l'utilisateur est correcte 
                 Medecin result = dataAccess.ConnectMedecinFromDB(login, password);
+                // Si la requete ne retourne rien, alors l'utilisateur est informé que l'identifiant ou le mot de est incorrecte
                 if (result.Login == "")
                 {
-                    MessageBox.Show("login ou mot de passe incorrect");
+                    MessageBox.Show("Identifiant ou mot de passe incorrect");
                 }
+                // Si l'utilisateur se connecte pour la première fois, il devra modifier son mot de passe 
                 else if (dataAccess.VerifyFirstConnection(login) == "Success")
                 {
                     NewMedecinPassword newPassword = new(login, this);
@@ -39,12 +43,14 @@ namespace PPE3
                     this.Hide();
 
                 }
+                // Si tout est correcte, l'utilisateur sera connecté
                 else if (dataAccess.VerifyFirstConnection(login) == "Error" && result.Login == login)
                 {
                     Index index = new(result, this);
                     index.Show();
                     this.Hide();
                 }
+                // Prévient de toutes erreurs inconnus
                 else
                 {
                     MessageBox.Show("Une erreur est survenue");

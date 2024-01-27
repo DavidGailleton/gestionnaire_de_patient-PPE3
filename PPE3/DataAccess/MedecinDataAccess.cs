@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Resolvers;
@@ -23,7 +24,7 @@ namespace PPE3.DataAccess
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT nom_med AS nom, prenom_med AS prenom, naissance_med AS date_de_naissance, login_med AS login FROM medecin";
+                string query = "SELECT nom_med AS nom, prenom_med AS prenom, naissance_med AS date_de_naissance, login_med AS login FROM medecin WHERE archive_med = 0";
                 using (MySqlCommand command = new MySqlCommand(query, conn))
                 {
                     MySqlDataAdapter adapter = new MySqlDataAdapter(command);
@@ -55,26 +56,64 @@ namespace PPE3.DataAccess
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "INSERT INTO medecin (nom_med, prenom_med, naissance_med, login_med, password_med) VALUES (@nom, @prenom, @naissance, @login, @password)";
-                using (MySqlCommand command = new MySqlCommand(query, conn))
+                string query = "SELECT archive_med FROM medecin WHERE login_med = @login";
+                using (MySqlCommand command1 = new MySqlCommand(query, conn))
                 {
-                    command.Parameters.AddWithValue("@nom", medecin.Nom);
-                    command.Parameters.AddWithValue("@prenom", medecin.Prenom);
-                    command.Parameters.AddWithValue("@naissance", medecin.Naissance);
-                    command.Parameters.AddWithValue("@login", medecin.Login);
-                    command.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
-                    int result = command.ExecuteNonQuery();
-                    conn.Close();
-                    if (result < 0)
+                    command1.Parameters.AddWithValue("@login", medecin.Login);
+
+                    short result1;
+                    if (command1.ExecuteScalar() == DBNull.Value)
                     {
-                        return "Error";
+                        result1 = -1;
                     }
                     else
                     {
-                        return "Success";
+                        result1 = Convert.ToInt16(command1.ExecuteScalar());
+                    }
+
+                    switch (result1)
+                    {
+                        case 1:
+                            string query3 =
+                                "UPDATE medecin SET archive_med = 0, password_med = @password, first_connection_med = 1 WHERE login_med = @login";
+                            using (MySqlCommand command3 = new MySqlCommand(query3, conn))
+                            {
+                                command3.Parameters.AddWithValue("@login", medecin.Login);
+                                command3.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
+                                int result3 = command3.ExecuteNonQuery();
+                                conn.Close();
+                                if (result3 < 0)
+                                {
+                                    return "Error";
+                                }
+                                return "Success";
+                            }
+                        case 0:
+                            MessageBox.Show("Utilisateur déja existant");
+                            return "Error";
+                        case -1:
+                            string query2 = "INSERT INTO medecin (nom_med, prenom_med, naissance_med, login_med, password_med) VALUES (@nom, @prenom, @naissance, @login, @password)";
+                            using (MySqlCommand command2 = new MySqlCommand(query2, conn))
+                            {
+                                command2.Parameters.AddWithValue("@nom", medecin.Nom);
+                                command2.Parameters.AddWithValue("@prenom", medecin.Prenom);
+                                command2.Parameters.AddWithValue("@naissance", medecin.Naissance);
+                                command2.Parameters.AddWithValue("@login", medecin.Login);
+                                command2.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
+                                int result2 = command2.ExecuteNonQuery();
+                                conn.Close();
+                                if (result2 < 0)
+                                {
+                                    return "Error";
+                                }
+                                return "Success";
+                            }
+                            default:
+                                return "Error";
                     }
                 }
             }
+            
         }
         public string DeleteMedecinInDB(Medecin medecin)
         {
@@ -98,16 +137,15 @@ namespace PPE3.DataAccess
                 }
             }
         }
-        public string UpdateMedecinPasswordInDB(string login, string password)
+        public string ArchiveMedecinInDB(Medecin medecin)
         {
-            using (MySqlConnection conn = new(connectionString))
+            using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "UPDATE medecin SET password_med = @password, first_connection_med = 0 WHERE login_med = @login";
+                string query = "UPDATE medecin SET archive_med = 1 WHERE login_med = @login";
                 using (MySqlCommand command = new MySqlCommand(query, conn))
                 {
-                    command.Parameters.AddWithValue("@login", login);
-                    command.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
+                    command.Parameters.AddWithValue("@login", medecin.Login);
                     int result = command.ExecuteNonQuery();
                     conn.Close();
                     if (result < 0)
@@ -121,18 +159,22 @@ namespace PPE3.DataAccess
                 }
             }
         }
-        public string VerifyFirstConnection(string login)
+        // met à jour le mot de passe
+        public string UpdateMedecinPasswordInDB(string login, string password)
         {
             using (MySqlConnection conn = new(connectionString))
             {
                 conn.Open();
-                string query = "SELECT first_connection_med FROM medecin WHERE login_med = @login";
+                // Requete mettant à jour le mot de passe du medecin et change l'etat de la colonne first_connection_med afin de confirmer que l'utilisateur à bien modifier son mot de passe 
+                string query = "UPDATE medecin SET password_med = @password, first_connection_med = 0 WHERE login_med = @login";
                 using (MySqlCommand command = new MySqlCommand(query, conn))
                 {
                     command.Parameters.AddWithValue("@login", login);
-                    int result = Convert.ToInt32(command.ExecuteScalar());
+                    command.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
+                    int result = command.ExecuteNonQuery();
                     conn.Close();
-                    if (result == 0)
+                    // Verifie si 
+                    if (result < 0)
                     {
                         return "Error";
                     }
@@ -143,17 +185,47 @@ namespace PPE3.DataAccess
                 }
             }
         }
+        // vérifie si c'est la première connexion de l'utilisateur
+        public string VerifyFirstConnection(string login)
+        {
+            using (MySqlConnection conn = new(connectionString))
+            {
+                conn.Open();
+                // selectionne la valeur booleen contenu dans la column first_connection_med de la table medecin selon l'idientifiant fournie
+                string query = "SELECT first_connection_med FROM medecin WHERE login_med = @login AND archive_med = 0";
+                using (MySqlCommand command = new MySqlCommand(query, conn))
+                {
+                    command.Parameters.AddWithValue("@login", login);
+                    int result = Convert.ToInt32(command.ExecuteScalar());
+                    conn.Close();
+                    // Si le résultat est 0, la fonction confirme que ce n'est pas la première connexion de l'utilisateur
+                    if (result == 0)
+                    {
+                        return "Error";
+                    }
+                    // Sinon, la fonction coonfirme que c'est sa première connexion
+                    else
+                    {
+                        return "Success";
+                    }
+                }
+            }
+        }
+        // Verifie si le mot de passe est correcte
         public string VerifyPassword(string login, string password)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
+                // Selectionne le mot de passe Hashé contenue dans la Table medecin
                 string query1 = "SELECT password_med FROM medecin WHERE login_med = @login";
 
                 using (MySqlCommand command1 = new MySqlCommand(query1, conn))
                 {
                     command1.Parameters.AddWithValue("@login", login);
+                    // Execute la requete
                     string result = Convert.ToString(command1.ExecuteScalar());
+                    // Vérifie si le mot de passe n'est pas null, puis s'il est correcte
                     if (result != null && BCrypt.Net.BCrypt.EnhancedVerify(password, result) == true)
                     {
                         return "Success";
@@ -166,18 +238,22 @@ namespace PPE3.DataAccess
                 }
             }
         }
+        // Vérifie la validité des identifiant fournie sur la page de connexion
         public Medecin ConnectMedecinFromDB(string login, string pass)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
+                // Requete visant à vérifier si l'utilisateur existe et récupère son mot de passe Hashé
                 string query1 = "SELECT password_med FROM medecin WHERE login_med = @login";
+                // Requete visant à importer les information nécessaire à la création d'un objet Medecin
                 string query2 = "SELECT nom_med, prenom_med, naissance_med, login_med FROM medecin WHERE login_med = @login";
 
                 using (MySqlCommand command1 = new MySqlCommand(query1, conn))
                 {
                     command1.Parameters.AddWithValue("@login", login);
                     string result = Convert.ToString(command1.ExecuteScalar());
+                    // Vérifie si le retour n'est pas null ou vide puis vérifie la validité du mot de passe en utilisant Bcrypt afin
                     if (result != null && result != "" && BCrypt.Net.BCrypt.EnhancedVerify(pass, result) == true)
                     {
                         using (MySqlCommand command2 = new MySqlCommand(query2, conn))
@@ -191,6 +267,7 @@ namespace PPE3.DataAccess
                             dt.Columns.Add("login_med", typeof(string));
                             adapter2.Fill(dt);
                             conn.Close();
+                            // Créer un tableau d'objet Medecin qui contiendra forcement qu'un seul élément car la données login_med est forcement Unique
                             List<Medecin> medecins = new();
                             if (dt.Rows.Count > 0)
                             {
@@ -205,8 +282,10 @@ namespace PPE3.DataAccess
 
                                     medecins.Add(med);
                                 }
+                                // Retourne le premiere élément du tableau d'objet medecins
                                 return medecins[0];
                             }
+                            // Retourne un objet medecin contenant des valeurs vide pour signalé que l'utilisateur n'existe pas ou que le mot de passe n'est pas valide
                             else
                             {
                                 Medecin med = new("", "", DateTime.UtcNow, "");

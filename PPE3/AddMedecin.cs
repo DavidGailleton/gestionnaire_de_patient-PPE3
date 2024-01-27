@@ -33,14 +33,18 @@ namespace PPE3
             if (result == "Success")
             {
                 MessageBox.Show("Medecin créé ave success");
-                AdminPage adminPage = new(login);
-                adminPage.Show();
                 this.Close();
-            } 
+            }
             else
             {
                 MessageBox.Show("Une erreur est survenue");
             }
+        }
+
+        private void AddMedecin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            AdminPage adminPage = new(login);
+            adminPage.Show();
         }
     }
 }

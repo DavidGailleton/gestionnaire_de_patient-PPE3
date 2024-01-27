@@ -69,6 +69,7 @@
             button1.TabIndex = 16;
             button1.Text = "Confirmer";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click_1;
             // 
             // label3
             // 
@@ -111,6 +112,7 @@
             Controls.Add(label1);
             Name = "NewAdminPassword";
             Text = "NewAdminPassword";
+            FormClosing += NewAdminPassword_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

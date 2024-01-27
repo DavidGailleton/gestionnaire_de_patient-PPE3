@@ -33,8 +33,6 @@ namespace PPE3_DEBUG
                 string result = dataAccess.AddAdminInDB(login_textBox.Text, password_maskedTextBox.Text);
                 if (result == "Success")
                 {
-                    AdminPage adminPage = new(login);
-                    adminPage.Show();
                     this.Close();
                 }
                 else
@@ -42,6 +40,12 @@ namespace PPE3_DEBUG
                     MessageBox.Show("Une erreur est survenue");
                 }
             }
+        }
+
+        private void AddAdmin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            AdminPage adminPage = new(login);
+            adminPage.Show();
         }
     }
 }

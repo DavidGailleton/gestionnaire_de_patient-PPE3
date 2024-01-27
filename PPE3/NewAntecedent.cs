@@ -33,7 +33,6 @@ namespace PPE3
         {
             DataTable dt = new DataTable();
             DataColumn column;
-            DataRow row;
 
             column = new DataColumn();
             column.DataType = System.Type.GetType("System.String");

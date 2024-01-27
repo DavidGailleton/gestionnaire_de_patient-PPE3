@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : lun. 22 jan. 2024 à 21:12
+-- Généré le : sam. 27 jan. 2024 à 17:16
 -- Version du serveur : 8.2.0
 -- Version de PHP : 8.2.13
 
@@ -35,14 +35,15 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `first_connection_adm` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_adm`),
   UNIQUE KEY `login_adm` (`login_adm`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `admin`
 --
 
 INSERT INTO `admin` (`id_adm`, `login_adm`, `password_adm`, `first_connection_adm`) VALUES
-(1, 'serv_davadm', '$2a$13$CMUgLD7q10tNgg/sjjcFpusUbowtR5.waVp717jhYvq8BB42oieza', 0);
+(1, 'serv_davadm', '$2a$13$CMUgLD7q10tNgg/sjjcFpusUbowtR5.waVp717jhYvq8BB42oieza', 0),
+(5, 'serv_admin', '$2a$13$ubVMEPEpqcmUxWUyji5GnOi8KsAuT1EVn0XdRPazaz2Pcd/O5jYEq', 0);
 
 -- --------------------------------------------------------
 
@@ -159,7 +160,7 @@ CREATE TABLE IF NOT EXISTS `antecedent` (
   `id_pat` int NOT NULL,
   PRIMARY KEY (`id_ant`),
   KEY `Antecedent_Patient_FK` (`id_pat`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `antecedent`
@@ -169,7 +170,8 @@ INSERT INTO `antecedent` (`id_ant`, `libelle_ant`, `id_pat`) VALUES
 (1, 'Hypertension', 1),
 (2, 'Diabète', 2),
 (3, 'Asthme', 3),
-(14, 'Hypoglycemie', 11);
+(14, 'Hypoglycemie', 11),
+(15, 'tendon percé', 15);
 
 -- --------------------------------------------------------
 
@@ -194,7 +196,8 @@ INSERT INTO `etre` (`id_all`, `id_pat`) VALUES
 (2, 2),
 (3, 3),
 (8, 10),
-(87, 11);
+(87, 11),
+(68, 15);
 
 -- --------------------------------------------------------
 
@@ -239,21 +242,21 @@ CREATE TABLE IF NOT EXISTS `medecin` (
   `login_med` varchar(50) NOT NULL,
   `password_med` varchar(250) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `first_connection_med` tinyint(1) NOT NULL DEFAULT '1',
+  `archive_med` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id_med`),
   UNIQUE KEY `login_med` (`login_med`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `medecin`
 --
 
-INSERT INTO `medecin` (`id_med`, `nom_med`, `prenom_med`, `naissance_med`, `login_med`, `password_med`, `first_connection_med`) VALUES
-(1, 'Dupont', 'Jean', '1980-01-15', 'jean.dupont', '$2a$13$vDAaulo.rZ8BXmdKYAmHo.fsBVSDm4MsRQUAEvj3wrFB93gcY1Sg6', 1),
-(2, 'Martin', 'Alice', '1975-05-22', 'alice.martin', '$2a$13$.62MFyMyx/r7lsXxWuTIv.K9T/WrrRFujZQ90ySpuozKTUcadgYXe', 1),
-(3, 'Lefevre', 'Pierre', '1990-08-10', 'pierre.lefevre', 'mdp789', 1),
-(4, 'Girard', 'Sophie', '1983-07-20', 'sophie.girard', 'mdp123', 1),
-(5, 'Lemoine', 'Thomas', '1970-12-05', 'thomas.lemoine', 'pass456', 1),
-(6, 'Robert', 'Isabelle', '1988-03-15', 'isabelle.robert', 'secret789', 1);
+INSERT INTO `medecin` (`id_med`, `nom_med`, `prenom_med`, `naissance_med`, `login_med`, `password_med`, `first_connection_med`, `archive_med`) VALUES
+(1, 'Dupont', 'Jean', '1980-01-15', 'jean.dupont', '$2a$13$W9tqCrFois6MQzXccrkeC.1aPayWDuVnDuM6DR.43R5W8aQW/isba', 0, 0),
+(2, 'Martin', 'Alice', '1975-05-22', 'alice.martin', '$2a$13$.62MFyMyx/r7lsXxWuTIv.K9T/WrrRFujZQ90ySpuozKTUcadgYXe', 1, 0),
+(15, 'BERTHOLET', 'Leo', '2003-11-01', 'leo.bertholet', '$2a$13$9BCgnJd/zPrEf3SxZZyBMehL1kPi3ARpYT3YAa2L0mcJzQYZaiLr2', 0, 0),
+(16, 'david', 'gailleton', '2024-01-27', 'david.gailleton', '$2a$13$OQvOIN8X73.el/jcpuxuY.WRHRLX5A9EIj6TXN28S51GtEe9GO9tK', 1, 0),
+(18, 'test', 'test', '2024-01-27', 'test', '$2a$13$vJuI7bI9YymO8LmyPaQq/ecpWerbtg8htuOx5s8QE93R7AR/ORkLS', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -306,14 +309,15 @@ CREATE TABLE IF NOT EXISTS `ordonnance` (
   KEY `Ordonnance_Medecin_FK` (`id_med`),
   KEY `Ordonnance_Patient0_FK` (`id_pat`),
   KEY `Ordonnance_Medicament1_FK` (`id_medic`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `ordonnance`
 --
 
 INSERT INTO `ordonnance` (`id_ord`, `posologie_ord`, `date_creation_ord`, `duree_ord`, `instruction_ord`, `id_med`, `id_pat`, `id_medic`) VALUES
-(5, 'test', '2024-01-16 15:02:42', 14, 'test', 1, 9, 3);
+(5, 'test', '2024-01-16 15:02:42', 14, 'test', 1, 9, 3),
+(6, '3 fois par jours', '2024-01-25 19:43:56', 15, 'Pendant les repas', 1, 15, 6);
 
 -- --------------------------------------------------------
 
@@ -331,7 +335,7 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `no_secu_pat` bigint NOT NULL,
   PRIMARY KEY (`id_pat`),
   UNIQUE KEY `no_secu_pat` (`no_secu_pat`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `patient`
@@ -345,7 +349,8 @@ INSERT INTO `patient` (`id_pat`, `nom_pat`, `prenom_pat`, `sexe_pat`, `naissance
 (10, 'Gauthier', 'Luc', 'M', '1978-04-15', 167890123456),
 (11, 'Martin', 'Camille', 'F', '1993-12-20', 289012345678),
 (12, 'Leclercq', 'Antoine', 'M', '1989-06-25', 101234567890),
-(13, 'Fournier', 'Julie', 'F', '1975-02-05', 223456789012);
+(13, 'Fournier', 'Julie', 'F', '1975-02-05', 223456789012),
+(15, 'David', 'GAILLETON', 'h', '2000-01-12', 156824978243);
 
 --
 -- Contraintes pour les tables déchargées

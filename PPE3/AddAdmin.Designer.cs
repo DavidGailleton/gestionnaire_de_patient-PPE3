@@ -90,6 +90,7 @@
             Controls.Add(login_textBox);
             Name = "AddAdmin";
             Text = "AddAdmin";
+            FormClosing += AddAdmin_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

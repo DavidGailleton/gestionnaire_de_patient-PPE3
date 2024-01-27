@@ -34,7 +34,7 @@ namespace PPE3
         {
             AddMedecin addMedecin = new AddMedecin(login);
             addMedecin.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void DeleteMedecinButton_Click(object sender, EventArgs e)
@@ -46,10 +46,10 @@ namespace PPE3
             else
             {
                 bool result = Convert.ToBoolean(MessageBox.Show("Voulez vous réellement supprimer cette utilisateur ?", "test", MessageBoxButtons.YesNo));
-                if (result = true)
+                if (result == true)
                 {
                     MedecinDataAccess dataAccess = new MedecinDataAccess();
-                    dataAccess.DeleteMedecinInDB(selectedMedecin);
+                    dataAccess.ArchiveMedecinInDB(selectedMedecin);
 
                     this.dataGridView1.DataSource = dataAccess.SelectMedecinsFromDB();
 
@@ -89,7 +89,7 @@ namespace PPE3
         {
             AddAdmin addAdmin = new(login);
             addAdmin.Show();
-            this.Close();
+            this.Hide();
         }
 
         private void AdminPage_Load(object sender, EventArgs e)
@@ -111,7 +111,7 @@ namespace PPE3
             else
             {
                 bool result = Convert.ToBoolean(MessageBox.Show("Voulez vous réellement supprimer cette ADMIN ?", "test", MessageBoxButtons.YesNo));
-                if (result = true)
+                if (result == true)
                 {
                     AdminDataAccess dataAccess = new();
                     dataAccess.DeleteAdminInDB(selectedAdmin.Login);

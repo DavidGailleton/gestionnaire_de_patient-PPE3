@@ -138,6 +138,7 @@
             Controls.Add(nom_textBox);
             Name = "AddMedecin";
             Text = "AddMedecin";
+            FormClosing += AddMedecin_FormClosing;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -42,74 +42,75 @@ Visual Studio est l'IDE utilisé pour visualiser le code et les vue du projet.
 Il est installable depuis cette page : 
 [https://visualstudio.microsoft.com/fr/](https://visualstudio.microsoft.com/fr/)
 
-Il bien installer la version **Community 2022** 
-![Capture d’écran 2024-01-26 130000.jpg](img%2FCapture%20d%92%E9cran%202024-01-26%20130000.jpg)
+Il bien installer la version **Community 2022**
+![visualStudioDownload](img/visualStudio_Download.jpg)
 
 Un fois installé, **Visual Studio Installer** vas ce lancer et vous proposer de choisir une "charges de travail", sélectionnez **Développement .NET Desktop** et cliquez sur installer ou modifier en bas a droite :
-![[Capture d’écran 2024-01-26 130532.jpg]]
+![visualStudio_dotNetDownload](img/visualStudio_dotNetDesktopdownload.jpg)
 
 #### WAMP
 WAMP est une application permettant de simplement mettre en place une base de données.
 Pour l'installation, dirigé vous directement sur le [site officiel de WAMP](https://www.wampserver.com/en/download-wampserver-64bits/), et dans la section Downloads, sélectionner **WAMPSERVER 64 BITS (X64)** et télécharger le sans vous inscrire en cliquant sur **you can download it directly** :
-![[Capture d’écran 2024-01-26 133244.jpg]]
+![wamp_download.jpg](img/wamp_download.jpg)
+
 
 Si une erreur ce produit lors de l'installation, c'est surement que l'installation de **Visual C++** n'a pas été faite correctement.
 
 ### Installation de l'application
 #### Téléchargement du Projet depuis GitHub
 Pour le téléchargement, dirigez vous sur la page [GitHub du projet](https://github.com/DavidGailleton/medic-manager-CScharp-PPE3), déroulez l'icone *Code* et cliquez sur *Download ZIP* :
-![[Capture d’écran 2024-01-26 131639.jpg]]
+![github_DownloadZip.jpg](img/github_DownloadZip.jpg)
 Une fois le téléchargement terminé, dirigez vous vers le répertoire **Téléchargements** puis extrayez le projet :
-![[Capture d’écran 2024-01-26 132126.jpg]]
-![[Capture d’écran 2024-01-26 132256.jpg]]
+![projectextract.jpg](img/projectextract.jpg)
+![project_ConfirmExtract.jpg](img/project_ConfirmExtract.jpg)
 Une fois extrait, vous devriez retrouver les fichiers du projet de cette manière :
-![[Pasted image 20240126132606.png]]
+![project_fileAfterExtract.png](img/project_fileAfterExtract.png)
 
 #### Mise en place de Wamp
 Si l'installation de wamp c'est bien déroulé, vous devriez pouvoirs le lancer depuis la barre de recherche de Windows : 
-![[Pasted image 20240126132730.png]]
+![wampOpen.png](img/wampOpen.png)
 
 Une fois lancé, il devrait être accessible depuis le lien suivant :
 http://localhost/phpmyadmin
 
 Sur la page de connexion, entrez **root** comme nom d'utilisateur sans mot de passe et connectez vous :
-![[phpmyadmin_login.png]]
+![phpmyadmin_login.png](img/phpmyadmin_login.png)
 Une fois connectée, cliquez sur **modifier le mot de passe** :
-![[phpmyadmin_changepasswordbutton.png]]
+![phpmyadmin_changepasswordbutton.png](img/phpmyadmin_changepasswordbutton.png)
 Puis dans **Saisir** et **Saisir à nouveau**, entrez le mot de passe `fuy8TLB8FaAQf@_Twu7*Tg3Z@jJ_opUyomn.cwP7`, puis **Exécuter** :
-![[phpmyadmin_changepasswordpage 1.png]]
+![phpmyadmin_changepasswordpage 1.png](img/phpmyadmin_changepasswordpage.png)
 Un fois le mot de passe modifié, créer une **nouvelle base de données** (1.), en la nommant ppe3 (2.), puis en cliquant sur **créer**(3.) :
-![[img/phpmyadmin_createDatabase.png]]
+![img/phpmyadmin_createDatabase.png](img/phpmyadmin_createDatabase.png)
 Une fois créée, il faut importer les tables et données nécessaire au fonctionnement de l'application.
 Pour ce faire, il faut sélectionner la BDD **ppe3**(1.), cliquer sur l'onglet **Importer**(2.), puis sélectionner **Parcourir...**(3.) :
-![[img/phpmyadmin_importButton.png]]
+![img/phpmyadmin_importButton.png](img/phpmyadmin_importButton.png)
 En suite sélectionnez le fichier `ppe3.sql` présent dans la racine du projet précédemment téléchargé, et cliquer sur ouvrir :
-![[img/phpmyadmin_importFile.png]]
+![img/phpmyadmin_importFile.png](img/phpmyadmin_importFile.png)
 Enfin, descendez en bas de la page et cliquez sur **Importer**:
-![[img/phpmyadmin_confirmimportbutton.png]]
+![img/phpmyadmin_confirmimportbutton.png](img/phpmyadmin_confirmimportbutton.png)
 
 La Base de données est dorénavant prête à être utilisée par l'application.
 ## Structure de la base de donnée
 ### MCD
-![[Pasted image 20240128193519.png]]
+![MCD.png](img/MCD.png)
 Pour avoir plus d'informations sur le MCD, vous pouvez installer l'application **JMerise** et ouvrir le fichier PPE3.MCD disponible à la racine du projet.
 ## L'application
 
 ### Lancer l'application
 Pour lancer l'application démarrer **Visual Studio** puis cliquez sur **Ouvrir un dossier local** :
-![[visualstudio_openproject.png]]
+![visualstudio_openproject.png](img/visualstudio_openproject.png)
 
 En suite, dirigé vous à la racine du projet précédemment téléchargé et cliqué sur **sélectionner un dossier** :
-![[visualstudio_openprojectfile.png]]
+![visualstudio_openprojectfile.png](img/visualstudio_openprojectfile.png)
 
 Une fois le projet ouvert, sélectionnez le fichier PPE3.slw dans l'explorateur de solution à droite de la page  
-![[visualstudio_opensln.png]]
+![visualstudio_opensln.png](img/visualstudio_opensln.png)
 L'explorateur de solution devrait s'afficher de cette manière :
-![[Pasted image 20240128200908.png]]
+![SolutionExplorer.png](img/SolutionExplorer.png)
 Il est possible d'accéder a la vue d'une page en **double cliquant** sur un fichier, et d'accéder au code de celui ci en cliquant sur la touche **F7** du clavier.
 
 Pour démarrer le programme il suffit de cliquer sur l'icone de démarrage nommé **PPE3** :
-![[visualstudio_startprogram.png]]
+![visualstudio_startprogram.png](img/visualstudio_startprogram.png)
 ### Sécurité
 Afin de ne pas enregistrer les mot de passe des utilisateurs et administrateurs en claire dans la base de données, il est impératif des le crypter au préalable.
 Pour hasher les mot de passe l'application utilise l'algorithme de **BCrypt**. Cet algorithme permet de crypter un mot de passe sans qu'il soit possible de le décrypter. 
@@ -124,7 +125,7 @@ Pour vérifier si le mot de passe est correct, un autre fonction est utilisé. C
 BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword)
 ```
 ### Page de connexion
-![[Pasted image 20240127115542.png]]
+![loginForm.png](img/loginForm.png)
 La page de connexion permet d'accéder à l'application destiné aux médecins, accessible en sélectionnant **Utilisateur**.  
 Les identifiant mis a disposition pour tester l'application coté médecine sont :
 	Username : jean.dupont
@@ -275,7 +276,7 @@ public string VerifyFirstConnection(string login)
 Dans le cas où l'utilisateur se connecte pour la première fois, il lui sera demandé de modifier son mot de passe afin qu'aucun administrateur ne puisse connaitre son mot de passe après sa première connexion.
 
 La page s'agence comme ceci :
-![[Pasted image 20240127174750.png]]
+![newPasswordForm.png](img/newPasswordForm.png)
 
 Le code fonctionne comme ceci :
 ```c#
@@ -384,11 +385,11 @@ public string UpdateMedecinPasswordInDB(string login, string password)
 Une fois mis à jour, l'utilisateur peut se connecter sans problème
 ### Base Utilisateur
 Un fois connecter vous tomberez sur une interface permettant d'accéder aux différents menu de l'application : 
-![[Pasted image 20240128101532.png]]
+![indexForm.png](img/indexForm.png)
 
 #### Ajouter un patient 
 La page d'ajout d'un nouveau patient ce présente comme ceci :
-![[Pasted image 20240128105058.png]]
+![addPatientForm.png](img/addPatientForm.png)
 
 Une fois les différentes cases remplie, vous pouvez appuyer sur **créer** ce qui exécutera cette méthode :
 ```c#
@@ -458,7 +459,7 @@ Une fois le patient créé, la page de profile du patient va s'ouvrir.
 #### Liste des patients existant
 Dans le cas ou le patient a déjà été créé, il est possible de simplement le rechercher en cliquant sur **Liste patient** sur la page d'accueil.
 La page listant les patient se présente de cette manière :
-![[Pasted image 20240128112005.png]]
+![ListPatientForm.png](img/ListPatientForm.png)
 ##### Search()
 Cette vue propose une boite de recherche qui utilise la fonction `Search()` utilisé dans d'autres vue :
 ```c#
@@ -542,7 +543,7 @@ Le bouton sélectionner permet d'accéder au profile du patient :
 ```
 
 #### Profile du patient
-![[Pasted image 20240128155200.png]]
+![PatientProfileForm.png](img/PatientProfileForm.png)
 Le profile du patient permet de voire les différentes allergies et antécédents du patient. Ces informations sont importer depuis la tables `etre` pour les allergies, la table `etre` contenant les clés primaires de la table allergie et de la table patient. Pour les antécédents le fonctionnement est différents, c'est directement la table `Antecedant` qui contient la clé primaire du patient car les antécédents sont unique selon le patient contrairement aux allergies qui peut être attribué a plusieurs patient.
 ##### Importation des antécédents 
 L'importations des antécédents ce fait de cette manière :
@@ -597,7 +598,7 @@ public DataTable SelectPatientAllergiesFromDb(Patient patient)
 #### Ajout d'un antécédant
 Pour ajouter un antécédant, il faut cliquer sur **Ajouter** en dessous du tableau des antécédents.
 Ainsi une nouvelle page vas s'ouvrir :
-![[Pasted image 20240128174511.png]]
+![NewAntecedantForm.png](img/NewAntecedantForm.png)
 Une fois sur cette page, vous pouvez nommer le nom de l'antécédent et ajouter des médicaments incompatible comme ci dessus.
 Lors de l'ajout, cette fonction sera exécuté :
 ```c#
@@ -636,7 +637,7 @@ Vous pouvez ajouter autant d'antécédents que voulu avant de retourner sur le p
 
 #### Ajout d'une allergie
 La page d'ajout d'allergie ce présente de cette manière :
-![[Pasted image 20240128180609.png]]
+![AddAllergieForm.png](img/AddAllergieForm.png)
 
 Elle permet de lier une allergie au patient sur la table `etre` de la base de données, mais aussi d'ajouter une allergie non disponible sur la table `allergie`.
 ##### Ajouter une nouvelle allergie sur la table `allergie`
@@ -679,7 +680,7 @@ public string AddAllergieToPatientInDB(Allergie allergie, Patient patient)
 
 #### Création d'un ordonnance
 La création d'une ordonnance ce fait depuis le profile du patient. En cliquant sur **Nouvelle ordonnance**, une nouvelle page s'ouvre :
-![[Pasted image 20240128160609.png]]
+![newAllergieForm.png](img/newAllergieForm.png)
 
 Elle permet de sélectionner un médicament selon les médicaments contenu dans la base `medicament`, de remplir la posologie, la durée du traitement et les instructions. Une fois les infos nécessaires remplie, il suffit de cliquer sur le bouton créé et un objet de la classe `ordonnance` sera créer pour faire appel a la fonction `AddOrdonnanceInDB` :
 ```c#
@@ -744,10 +745,10 @@ Une fois créé, l'ordonnance vas s'afficher.
 
 #### Historique des médicaments
 Une autre manière d'afficher une ordonnance est de se diriger vers l'historique des médicaments depuis la page d'accueil.
-La page se présente de la même manière que la [liste des patients](#### Liste des patients existant) et fonctionne de la même manière :
-![[Pasted image 20240128165725.png]]
+La page se présente de la même manière que la [liste des patients](#liste-des-patients-existant) et fonctionne de la même manière :
+![OrdonnanceHistoryForm.png](img/OrdonnanceHistoryForm.png)
 #### Affichage d'un ordonnance
-![[Pasted image 20240128165824.png]]
+![OrdonnanceViewForm.png](img/OrdonnanceViewForm.png)
 L'ordonnance se présente de manière simple en affichant les informations a la manière d'une réel ordonnance.
 La fonction intéressante de cette page est de pouvoir enregistrer l'ordonnance au format pdf. Cette fonction est rendu possible grâce a l'extension **IText7** en permet entre autre de créer et d'agencer des fichier PDF de manière simple.
 La méthode permettant d'enregistrer l'ordonnance au format pdf fonctionne de cette manière :
@@ -795,7 +796,7 @@ private void print_button_Click(object sender, EventArgs e)
 }
 ```
 Un boite de dialogue s'ouvrira donc pour choisir l'emplacement et le nom du fichier à enregistrer :
-![[Pasted image 20240128171235.png]]
+![pdfFileSave.png](img/pdfFileSave.png)
 
 Une fois enregistrer vous pouvez enregistré, vous pouvez l'imprimer avec le logiciel de votre choix comme Adobe Acrobat par exemple.
 
@@ -804,7 +805,7 @@ Ce logiciel permet également faire une gestion de stock de médicaments, bien q
 Cette page est accessible depuis la page d'accueil via le bouton **Gerer le stock de médicaments**.
 
 La page se présente de cette manière :
-![[Pasted image 20240128171904.png]]
+![DrugStockForm.png](img/DrugStockForm.png)
 
 Cette page utilise 2 requête sql :
 Importation des médicaments autorisé :
@@ -830,7 +831,7 @@ UPDATE medicament SET qte_medic = qte_medic - @quantity WHERE libelle_medic = @l
 
 ### Base Administrateur
 La page principale de l'administrateur ce présente comme ceci :
-![[Pasted image 20240128181829.png]]
+![AdminPageForm.png](img/AdminPageForm.png)
 
 #### Gestion des utilisateur
 L'ajout et suppression des médecins (utilisateur) fonctionne avec un système d'archive transparente pour l'administrateur. Etant donné que la **clé primaire** d'un médecin peut être liée à des ordonnances, elle ne peut pas être supprimé sans supprimer les ordonnance qu'il avait précédemment créé.
@@ -841,7 +842,7 @@ Dans le cas ou le médecin est "supprimé", le programme vas simplement changer 
 Imaginons qu'un utilisateur précédemment archivé revienne dans l'entreprise, la fonction `AddMedecinInDB()` va en premier lieu vérifier s'il n'existe pas déjà, et si c'est le cas, simplement modifier la valeur `archive_med` et son mot de passe afin qu'il soit visible et qu'il puisse se connecter.
 ##### Ajout d'un utilisateur
 En cliquant sur **Ajouter un utilisateur** une nouvelle vue vas s'ouvrir :
-![[Pasted image 20240128183331.png]]
+![AddMedecinbForm.png](img/AddMedecinbForm.png)
 Il faut simplement rentrer les information puis cliquer sur **Créer le medecin** (a noter que le mot de passe sera obligatoirement modifié lors de la première connexion de l'utilisateur).
 La création appellera la fonction `AddMedecinInDB()` :
 ```c#
@@ -951,7 +952,7 @@ public string ArchiveMedecinInDB(Medecin medecin)
 Contrairement aux médecins, les administrateurs ne sont liée à aucune autre table, l'application vas donc supprimer totalement l'administrateur lors de la création de la table `admin`.
 ##### Création d'un administrateur
 La page de création demande seulement un nom d'utilisateur et un mot de passe :
-![[Pasted image 20240128190700.png]]
+![AddAdminForm.png](img/AddAdminForm.png)
 En cliquant sur **Créer l'administrateur** si le nom d'utilisateur et le mot de passe sont bien remplie, la fonction `AddAdminInDB()` est appelé :
 ```c#
 public string AddAdminInDB(string login, string password)

@@ -17,9 +17,9 @@ La France a été choisie comme témoin pour l'amélioration du suivi de l'activ
 
 ### L'application mis en place
 
-L'application présenté dans ce compte rendu permet de répondre à la problématique de gestion des patient par les médecins du laboratoire.
+L'application présentée dans ce compte rendu permet de répondre à la problématique de gestion des patients par les médecins du laboratoire.
 
-Le suivie des patients étant parfois compliqué, notamment sur les antécédents, les allergie et les anciennes ordonnances, les médecins pourront avoir un aperçu sur les informations du patient facilement. 
+La suivie des patients étant parfois compliqués, notamment sur les antécédents, les allergies et l'historique d'ordonnances, les médecins pourront avoir un aperçu sur les informations du patient facilement.
 ## Mise en place
 ### Prérequis
 #### .NET Core
@@ -42,11 +42,11 @@ Visual Studio est l'IDE utilisé pour visualiser le code et les vue du projet.
 Il est installable depuis cette page : 
 [https://visualstudio.microsoft.com/fr/](https://visualstudio.microsoft.com/fr/)
 
-Il bien installer la version **Community 2022**
+Il faut bien installer la version **Community 2022**
 
 ![visualStudioDownload](img/visualStudio_Download.jpg)
 
-Un fois installé, **Visual Studio Installer** vas ce lancer et vous proposer de choisir une "charges de travail", sélectionnez **Développement .NET Desktop** et cliquez sur installer ou modifier en bas a droite :
+Une fois installé, **Visual Studio Installer** va se lancer et vous proposer de choisir une "charges de travail", sélectionnez **Développement .NET Desktop** et cliquez sur installer ou modifier en bas à droite :
 
 ![visualStudio_dotNetDownload](img/visualStudio_dotNetDesktopdownload.jpg)
 
@@ -57,15 +57,15 @@ Pour l'installation, dirigé vous directement sur le [site officiel de WAMP](htt
 ![wamp_download.jpg](img/wamp_download.jpg)
 
 
-Si une erreur ce produit lors de l'installation, c'est surement que l'installation de **Visual C++** n'a pas été faite correctement.
+Si une erreur se produit lors de l'installation, c'est surement que l'installation de **Visual C++** n'a pas été faite correctement.
 
 ### Installation de l'application
 #### Téléchargement du Projet depuis GitHub
-Pour le téléchargement, dirigez vous sur la page [GitHub du projet](https://github.com/DavidGailleton/medic-manager-CScharp-PPE3), déroulez l'icone *Code* et cliquez sur *Download ZIP* :
+Pour le téléchargement, dirigez-vous sur la page [GitHub du projet](https://github.com/DavidGailleton/medic-manager-CScharp-PPE3), déroulez l'icone *Code* et cliquez sur *Download ZIP* :
 
 ![github_DownloadZip.jpg](img/github_DownloadZip.jpg)
 
-Une fois le téléchargement terminé, dirigez vous vers le répertoire **Téléchargements** puis extrayez le projet :
+Une fois le téléchargement terminé, dirigez-vous vers le répertoire **Téléchargements** puis extrayez le projet :
 
 ![projectextract.jpg](img/projectextract.jpg)
 
@@ -83,7 +83,7 @@ Si l'installation de wamp c'est bien déroulé, vous devriez pouvoirs le lancer 
 Une fois lancé, il devrait être accessible depuis le lien suivant :
 http://localhost/phpmyadmin
 
-Sur la page de connexion, entrez **root** comme nom d'utilisateur sans mot de passe et connectez vous :
+Sur la page de connexion, entrez **root** comme nom d'utilisateur sans mot de passe et connectez-vous :
 
 ![phpmyadmin_login.png](img/phpmyadmin_login.png)
 
@@ -95,16 +95,16 @@ Puis dans **Saisir** et **Saisir à nouveau**, entrez le mot de passe `fuy8TLB8F
 
 ![phpmyadmin_changepasswordpage 1.png](img/phpmyadmin_changepasswordpage.png)
 
-Un fois le mot de passe modifié, créer une **nouvelle base de données** (1.), en la nommant ppe3 (2.), puis en cliquant sur **créer**(3.) :
+Une fois le mot de passe modifié, créer une **nouvelle base de données** (1.), en la nommant ppe3 (2.), puis en cliquant sur **créer**(3.) :
 
 ![img/phpmyadmin_createDatabase.png](img/phpmyadmin_createDatabase.png)
 
-Une fois créée, il faut importer les tables et données nécessaire au fonctionnement de l'application.
+Une fois créé, il faut importer les tables et données nécessaires au fonctionnement de l'application.
 Pour ce faire, il faut sélectionner la BDD **ppe3**(1.), cliquer sur l'onglet **Importer**(2.), puis sélectionner **Parcourir...**(3.) :
 
 ![img/phpmyadmin_importButton.png](img/phpmyadmin_importButton.png)
 
-En suite sélectionnez le fichier `ppe3.sql` présent dans la racine du projet précédemment téléchargé, et cliquer sur ouvrir :
+Ensuite sélectionnez le fichier `ppe3.sql` présent dans la racine du projet précédemment téléchargé, et cliquez sur ouvrir :
 
 ![img/phpmyadmin_importFile.png](img/phpmyadmin_importFile.png)
 
@@ -112,7 +112,7 @@ Enfin, descendez en bas de la page et cliquez sur **Importer**:
 
 ![img/phpmyadmin_confirmimportbutton.png](img/phpmyadmin_confirmimportbutton.png)
 
-La Base de données est dorénavant prête à être utilisée par l'application.
+La base de données est dorénavant prête à être utilisée par l'application.
 ## Structure de la base de donnée
 ### MCD
 
@@ -122,15 +122,15 @@ Pour avoir plus d'informations sur le MCD, vous pouvez installer l'application *
 ## L'application
 
 ### Lancer l'application
-Pour lancer l'application démarrer **Visual Studio** puis cliquez sur **Ouvrir un dossier local** :
+Pour lancer l'application démarré **Visual Studio** puis cliquez sur **Ouvrir un dossier local** :
 
 ![visualstudio_openproject.png](img/visualstudio_openproject.png)
 
-En suite, dirigé vous à la racine du projet précédemment téléchargé et cliqué sur **sélectionner un dossier** :
+Ensuite, dirigé vous à la racine du projet précédemment téléchargé et cliqué sur **sélectionner un dossier** :
 
 ![visualstudio_openprojectfile.png](img/visualstudio_openprojectfile.png)
 
-Une fois le projet ouvert, sélectionnez le fichier PPE3.slw dans l'explorateur de solution à droite de la page  
+Une fois le projet ouvert, sélectionnez le fichier PPE3.sln dans l'explorateur de solution à droite de la page  
 
 ![visualstudio_opensln.png](img/visualstudio_opensln.png)
 
@@ -138,17 +138,17 @@ L'explorateur de solution devrait s'afficher de cette manière :
 
 ![SolutionExplorer.png](img/SolutionExplorer.png)
 
-Il est possible d'accéder a la vue d'une page en **double cliquant** sur un fichier, et d'accéder au code de celui ci en cliquant sur la touche **F7** du clavier.
+Il est possible d'accéder à la vue d'une page en **double cliquant** sur un fichier, et d'accéder au code de celui-ci en cliquant sur la touche **F7** du clavier.
 
-Pour démarrer le programme il suffit de cliquer sur l'icone de démarrage nommé **PPE3** :
+Pour démarrer le programme il suffit de cliquer sur l'icône de démarrage nommé **PPE3** :
 
 ![visualstudio_startprogram.png](img/visualstudio_startprogram.png)
 
 ### Sécurité
-Afin de ne pas enregistrer les mot de passe des utilisateurs et administrateurs en claire dans la base de données, il est impératif des le crypter au préalable.
+Afin de ne pas enregistrer les mot de passe des utilisateurs et administrateurs en clair dans la base de données, il est impératif de le crypter au préalable.
 Pour hasher les mot de passe l'application utilise l'algorithme de **BCrypt**. Cet algorithme permet de crypter un mot de passe sans qu'il soit possible de le décrypter. 
 
-L'encryptions se fait via un fonction proposé par BCrypt demandant 2 paramètre, le mot de passe à hasher et un indice permettant de plus ou moins "encrypter" le mot de passe :
+L'encryptions se fait via une fonction proposée par BCrypt demandant 2 paramètres, le mot de passe à hasher et un indice permettant de plus ou moins "encrypter" le mot de passe :
 ```c#
 BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13)
 ```
@@ -162,7 +162,7 @@ BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword)
 ![loginForm.png](img/loginForm.png)
 
 La page de connexion permet d'accéder à l'application destiné aux médecins, accessible en sélectionnant **Utilisateur**.  
-Les identifiant mis a disposition pour tester l'application coté médecine sont :
+Les identifiants mis a disposition pour tester l'application côté médecine sont :
 	Username : jean.dupont
 	Password : motdepasse123
 
@@ -170,7 +170,7 @@ Ceux cotés Administrateurs sont :
 	Username : serv_admin
 	Password : motdepasse123
 
-Pour présenter les fonction et méthode utilisé lors de la connexion, je vais seulement montrer celles utilisé pour les médecins car celles utilisées pour les administrateurs sont équivalentes.
+Pour présenter les fonctions et méthode utilisé lors de la connexion, je vais seulement montrer celles utilisé pour les médecins car celles utilisées pour les administrateurs sont équivalentes.
 
 La connexion fonctionne de cette manière :
 ```c#
@@ -209,7 +209,7 @@ if (comboBox1.Text == "Utilisateur")
     }
 }
 ```
-Pour vérifier la validité des connexions, j'utilise un fonction vérifiant si l'utilisateur existe et si le mot de passe est correcte :
+Pour vérifier la validité des connexions, j'utilise uns fonction vérifiant si l'utilisateur existe et si le mot de passe est correct :
 ```c#
 // Vérifie la validité des identifiant fournie sur la page de connexion
 public Medecin ConnectMedecinFromDB(string login, string pass)
@@ -276,8 +276,8 @@ public Medecin ConnectMedecinFromDB(string login, string pass)
 }
 ```
 
-Pour vérifier si c'est la première connexion de l'utilisateur j'utilise une données booléen présente dans les tables `medecin` et `admin` nommé respectivement `first_connection_med` et `first_connection_adm`.
-La fonction utilisé est celle ci :
+Pour vérifier si c'est la première connexion de l'utilisateur j'utilise une donnée booléenne présente dans les tables `medecin` et `admin` nommé respectivement `first_connection_med` et `first_connection_adm`.
+La fonction utilisée est celle-ci :
 ```c#
 // vérifie si c'est la première connexion de l'utilisateur
 public string VerifyFirstConnection(string login)
@@ -358,7 +358,7 @@ Le code fonctionne comme ceci :
      }
  }
 ```
-Elle appelle la fonction `VerifyPassword` pour vérifier si le mot de passe original est correcte : 
+Elle appelle la fonction `VerifyPassword` pour vérifier si le mot de passe original est correct : 
 ```C#
 // Verifie si le mot de passe est correcte
 public string VerifyPassword(string login, string password)
@@ -388,7 +388,7 @@ public string VerifyPassword(string login, string password)
     }
 }
 ```
-Si toutes les conditions sont correcte, alors le mot de passe va être mis à jour via la fonction `UpdateMedecinPasswordInDB` :
+Si toutes les conditions sont correctes, alors le mot de passe va être mis à jour via la fonction `UpdateMedecinPasswordInDB` :
 ```c#
 // met à jour le mot de passe
 public string UpdateMedecinPasswordInDB(string login, string password)
@@ -420,16 +420,16 @@ public string UpdateMedecinPasswordInDB(string login, string password)
 
 Une fois mis à jour, l'utilisateur peut se connecter sans problème
 ### Base Utilisateur
-Un fois connecter vous tomberez sur une interface permettant d'accéder aux différents menu de l'application : 
+Une fois connecter vous tomberez sur une interface permettant d'accéder aux différents menus de l'application : 
 
 ![indexForm.png](img/indexForm.png)
 
 #### Ajouter un patient 
-La page d'ajout d'un nouveau patient ce présente comme ceci :
+La page d'ajout d'un nouveau patient se présente comme ceci :
 
 ![addPatientForm.png](img/addPatientForm.png)
 
-Une fois les différentes cases remplie, vous pouvez appuyer sur **créer** ce qui exécutera cette méthode :
+Une fois les différentes cases remplies, vous pouvez appuyer sur **créer** ce qui exécutera cette méthode :
 ```c#
  // créer un nouveau patient
  private void create_button_Click(object sender, EventArgs e)
@@ -457,7 +457,7 @@ Une fois les différentes cases remplie, vous pouvez appuyer sur **créer** ce q
  }
 ```
 
-Cette méthode appel la fonction `AddPatientInDB` :
+Cette méthode appelle la fonction `AddPatientInDB` :
 ```c#
 // Ajoute un nouveau Patient dans la table patient
 public string AddPatientInDB(Patient patient)
@@ -496,12 +496,12 @@ Une fois le patient créé, la page de profile du patient va s'ouvrir.
 
 #### Liste des patients existant
 Dans le cas ou le patient a déjà été créé, il est possible de simplement le rechercher en cliquant sur **Liste patient** sur la page d'accueil.
-La page listant les patient se présente de cette manière :
+La page listant les patients se présente de cette manière :
 
 ![ListPatientForm.png](img/ListPatientForm.png)
 
 ##### Search()
-Cette vue propose une boite de recherche qui utilise la fonction `Search()` utilisé dans d'autres vue :
+Cette vue propose une boîte de recherche qui utilise la fonction `Search()` utilisé dans d'autres vues :
 ```c#
 // Recherche une donnée présente dans la premiere colonne d'un tableau en fonction d'une boite de texte
 public void Search(System.Windows.Forms.TextBox textBox, DataGridView dataGridView)
@@ -539,7 +539,7 @@ public DataTable SelectPatientsFromDB()
 }
 ```
 ##### Sélection d'un patient
-Pour sélectionner un patient il suffit simplement de cliquer sur une case du tableau, puis la ligne sera contenu dans un objet de la classe patient comme ceci :
+Pour sélectionner un patient il suffit simplement de cliquer sur une case du tableau, puis la ligne sera contenue dans un objet de la classe patient comme ceci :
 ```c#
 // Selection d'un patient en cliquant sur un ligne
 private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -563,7 +563,7 @@ private void dataGridView1_CellContentClick(object sender, DataGridViewCellEvent
 ```
 
 ##### Bouton Sélectionner
-Le bouton sélectionner permet d'accéder au profile du patient :
+Le bouton sélectionné permet d'accéder au profil du patient :
 ```c#
     private void select_button_Click(object sender, EventArgs e)
     {
@@ -586,7 +586,8 @@ Le bouton sélectionner permet d'accéder au profile du patient :
 
 ![PatientProfileForm.png](img/PatientProfileForm.png)
 
-Le profile du patient permet de voire les différentes allergies et antécédents du patient. Ces informations sont importer depuis la tables `etre` pour les allergies, la table `etre` contenant les clés primaires de la table allergie et de la table patient. Pour les antécédents le fonctionnement est différents, c'est directement la table `Antecedant` qui contient la clé primaire du patient car les antécédents sont unique selon le patient contrairement aux allergies qui peut être attribué a plusieurs patient.
+Le profil du patient permet de voir les différentes allergies et antécédents du patient. Ces informations sont importées depuis la table `etre` pour les allergies, la table `etre` contenant les clés primaires de la table allergie et de la table `patient`. Pour les antécédents le fonctionnement est différent, c'est directement la table `Antecedant` qui contient la clé primaire du patient car les antécédents sont uniques selon le patient contrairement aux allergies qui peuvent être attribuées à plusieurs patients.
+
 ##### Importation des antécédents 
 L'importations des antécédents ce fait de cette manière :
 ```c#
@@ -638,13 +639,13 @@ public DataTable SelectPatientAllergiesFromDb(Patient patient)
 ```
 
 #### Ajout d'un antécédant
-Pour ajouter un antécédant, il faut cliquer sur **Ajouter** en dessous du tableau des antécédents.
-Ainsi une nouvelle page vas s'ouvrir :
+Pour ajouter un antécédent, il faut cliquer sur **Ajouter** en dessous du tableau des antécédents.
+Ainsi une nouvelle page va s'ouvrir :
 
 ![NewAntecedantForm.png](img/NewAntecedantForm.png)
 
-Une fois sur cette page, vous pouvez nommer le nom de l'antécédent et ajouter des médicaments incompatible comme ci dessus.
-Lors de l'ajout, cette fonction sera exécuté :
+Une fois sur cette page, vous pouvez nommer le nom de l'antécédent et ajouter des médicaments incompatibles comme ci-dessus.
+Lors de l'ajout, cette fonction sera exécutés :
 ```c#
 // ajout d'un antécedent dans la base de donnée
 public string AddAntecedantInDB(string libelle, Patient patient)
@@ -677,21 +678,21 @@ public string AddAntecedantInDB(string libelle, Patient patient)
 }
 ```
 
-Vous pouvez ajouter autant d'antécédents que voulu avant de retourner sur le profile en cliquant sur **Retourner en arrière**.
+Vous pouvez ajouter autant d'antécédents que voulu avant de retourner sur le profil en cliquant sur **Retourner en arrière**.
 
 #### Ajout d'une allergie
-La page d'ajout d'allergie ce présente de cette manière :
+La page d'ajout d'allergie se présente de cette manière :
 
 ![AddAllergieForm.png](img/AddAllergieForm.png)
 
 Elle permet de lier une allergie au patient sur la table `etre` de la base de données, mais aussi d'ajouter une allergie non disponible sur la table `allergie`.
 ##### Ajouter une nouvelle allergie sur la table `allergie`
-Pour ajouter une nouvelle allergie sur la table `allergie` il suffit de remplir la boite de texte à droite du bouton **Ajouter une nouvelle allergie** puis de cliquer sur cette dernière. Elle sera en suite aujouter à la table allergie via la requete SQL suivante :
+Pour ajouter une nouvelle allergie sur la table `allergie` il suffit de remplir la boîte de texte à droite du bouton **Ajouter une nouvelle allergie** puis de cliquer sur cette dernière. Elle sera ensuite aujouté à la table allergie via la requête SQL suivante :
 ```sql
 INSERT INTO allergie (libelle_all) VALUES (@libelle)
 ```
 
-Pour affecter une allergie au patient il faut en suite la sélectionner sur la table de données et cliquer sur **Ajouter l allergie**. Ce bouton appelera la fonction `AddAllergieToPatientInDB()` :
+Pour affecter une allergie au patient il faut ensuite la sélectionner sur la table de données et cliquer sur **Ajouter l allergie**. Ce bouton appellera la fonction `AddAllergieToPatientInDB()` :
 ```c#
 public string AddAllergieToPatientInDB(Allergie allergie, Patient patient)
 {
@@ -724,11 +725,11 @@ public string AddAllergieToPatientInDB(Allergie allergie, Patient patient)
 ```
 
 #### Création d'un ordonnance
-La création d'une ordonnance ce fait depuis le profile du patient. En cliquant sur **Nouvelle ordonnance**, une nouvelle page s'ouvre :
+La création d'une ordonnance ce fait depuis le profil du patient. En cliquant sur **Nouvelle ordonnance**, une nouvelle page s'ouvre :
 
 ![newAllergieForm.png](img/newAllergieForm.png)
 
-Elle permet de sélectionner un médicament selon les médicaments contenu dans la base `medicament`, de remplir la posologie, la durée du traitement et les instructions. Une fois les infos nécessaires remplie, il suffit de cliquer sur le bouton créé et un objet de la classe `ordonnance` sera créer pour faire appel a la fonction `AddOrdonnanceInDB` :
+Elle permet de sélectionner un médicament selon les médicaments contenu dans la base `medicament`, de remplir la posologie, la durée du traitement et les instructions. Une fois les infos nécessaires remplie, il suffit de cliquer sur le bouton créé et un objet de la classe `ordonnance` sera créé pour faire appel à la fonction `AddOrdonnanceInDB` :
 ```c#
 // Importation d'une ordonnance dans la base de données et ouverture de celle ci
 private void button1_Click(object sender, EventArgs e)
@@ -787,7 +788,7 @@ public string AddOrdonnanceInDB(Ordonnance ordonnance)
 }
 ```
 
-Une fois créé, l'ordonnance vas s'afficher.
+Une fois créé, l'ordonnance va s'afficher.
 
 #### Historique des médicaments
 Une autre manière d'afficher une ordonnance est de se diriger vers l'historique des médicaments depuis la page d'accueil.
@@ -800,7 +801,7 @@ La page se présente de la même manière que la [liste des patients](#liste-des
 ![OrdonnanceViewForm.png](img/OrdonnanceViewForm.png)
 
 L'ordonnance se présente de manière simple en affichant les informations a la manière d'une réel ordonnance.
-La fonction intéressante de cette page est de pouvoir enregistrer l'ordonnance au format pdf. Cette fonction est rendu possible grâce a l'extension **IText7** en permet entre autre de créer et d'agencer des fichier PDF de manière simple.
+La fonction intéressante de cette page est de pouvoir enregistrer l'ordonnance au format pdf. Cette fonction est rendue possible grâce à l'extension **IText7** en permet entre autres de créer et d'agencer des fichiers PDF de manière simple.
 La méthode permettant d'enregistrer l'ordonnance au format pdf fonctionne de cette manière :
 ```c#
 // Permet d'enregistrer l'ordonnance au format PDF
@@ -845,14 +846,14 @@ private void print_button_Click(object sender, EventArgs e)
     }
 }
 ```
-Un boite de dialogue s'ouvrira donc pour choisir l'emplacement et le nom du fichier à enregistrer :
+Une boite de dialogue s'ouvrira donc pour choisir l'emplacement et le nom du fichier à enregistrer :
 
 ![pdfFileSave.png](img/pdfFileSave.png)
 
-Une fois enregistrer vous pouvez enregistré, vous pouvez l'imprimer avec le logiciel de votre choix comme Adobe Acrobat par exemple.
+Une fois enregistrez-vous pouvez enregistrer, vous pouvez l'imprimer avec le logiciel de votre choix comme Adobe Acrobat par exemple.
 
 #### Gestion de stock de médicaments
-Ce logiciel permet également faire une gestion de stock de médicaments, bien que cet aspect pourrait être améliorer.
+Ce logiciel permet également de faire une gestion de stock de médicaments, bien que cet aspect puisse être amélioré.
 Cette page est accessible depuis la page d'accueil via le bouton **Gerer le stock de médicaments**.
 
 La page se présente de cette manière :
@@ -860,7 +861,7 @@ La page se présente de cette manière :
 ![DrugStockForm.png](img/DrugStockForm.png)
 
 Cette page utilise 2 requête sql :
-Importation des médicaments autorisé :
+Importation des médicaments autorisés :
 ```sql
 SELECT libelle_medic AS libelle, contre_indication_medic AS contre_indication, qte_medic AS Quantite FROM medicament
 ```
@@ -882,23 +883,23 @@ UPDATE medicament SET qte_medic = qte_medic - @quantity WHERE libelle_medic = @l
 
 
 ### Base Administrateur
-La page principale de l'administrateur ce présente comme ceci :
+La page principale de l'administrateur se présente comme ceci :
 
 ![AdminPageForm.png](img/AdminPageForm.png)
 
 #### Gestion des utilisateur
-L'ajout et suppression des médecins (utilisateur) fonctionne avec un système d'archive transparente pour l'administrateur. Etant donné que la **clé primaire** d'un médecin peut être liée à des ordonnances, elle ne peut pas être supprimé sans supprimer les ordonnance qu'il avait précédemment créé.
-Pour palier à ce soucis, le médecin n'est jamais supprimé de la table `medecin`, mais simplement archivé grâce à une données booléenne nommé `archive_med` dans la table `medecin`. 
+L'ajout et suppression des médecins (utilisateur) fonctionnent avec un système d'archives transparentes pour l'administrateur. Etant donné que la **clé primaire** d'un médecin peut être liée à des ordonnances, elle ne peut pas être supprimé sans supprimer les ordonnances qu'il avait précédemment créés.
+Pour pallier ce souci, le médecin n'est jamais supprimé de la table `medecin`, mais simplement archivé grâce à une donnée booléenne nommé `archive_med` dans la table `medecin`. 
 
-Dans le cas ou le médecin est "supprimé", le programme vas simplement changer la valeur `archive_med` pour "l'archiver" afin qu'il ne soit plus visible et qu'il ne puisse plus se connecter.
+Dans le cas ou le médecin est "supprimé", le programme va  simplement changer la valeur `archive_med` pour "l'archiver" afin qu'il ne soit plus visible et qu'il ne puisse plus se connecter.
 
 Imaginons qu'un utilisateur précédemment archivé revienne dans l'entreprise, la fonction `AddMedecinInDB()` va en premier lieu vérifier s'il n'existe pas déjà, et si c'est le cas, simplement modifier la valeur `archive_med` et son mot de passe afin qu'il soit visible et qu'il puisse se connecter.
 ##### Ajout d'un utilisateur
-En cliquant sur **Ajouter un utilisateur** une nouvelle vue vas s'ouvrir :
+En cliquant sur **Ajouter un utilisateur** une nouvelle vue va s'ouvrir :
 
 ![AddMedecinbForm.png](img/AddMedecinbForm.png)
 
-Il faut simplement rentrer les information puis cliquer sur **Créer le medecin** (a noter que le mot de passe sera obligatoirement modifié lors de la première connexion de l'utilisateur).
+Il faut simplement rentrer les informations puis cliquer sur **Créer le medecin** (a noter que le mot de passe sera obligatoirement modifié lors de la première connexion de l'utilisateur).
 La création appellera la fonction `AddMedecinInDB()` :
 ```c#
 public string AddMedecinInDB(Medecin medecin, string password)
@@ -975,7 +976,7 @@ public string AddMedecinInDB(Medecin medecin, string password)
 
 ##### Suppression d'un utilisateur
 Pour supprimer un utilisateur il faut le sélectionner dans la table de données et cliquer sur le bouton **Supprimer un utilisateur**.
-Comme vu ci dessus, l'application ne vas pas réellement supprimer l'utilisateur mais simplement l'archiver via la fonction `ArchiveMedecinInDB()` :
+Comme vu ci-dessus, l'application ne vas pas réellement supprimer l'utilisateur mais simplement l'archiver via la fonction `ArchiveMedecinInDB()` :
 ```c#
 public string ArchiveMedecinInDB(Medecin medecin)
 {
@@ -1004,13 +1005,13 @@ public string ArchiveMedecinInDB(Medecin medecin)
 
 
 #### Gestion des Administrateurs
-Contrairement aux médecins, les administrateurs ne sont liée à aucune autre table, l'application vas donc supprimer totalement l'administrateur lors de la création de la table `admin`.
+Contrairement aux médecins, les administrateurs ne sont liés à aucune autre table, l'application va donc supprimer totalement l'administrateur lors de la création de la table `admin`.
 ##### Création d'un administrateur
 La page de création demande seulement un nom d'utilisateur et un mot de passe :
 
 ![AddAdminForm.png](img/AddAdminForm.png)
 
-En cliquant sur **Créer l'administrateur** si le nom d'utilisateur et le mot de passe sont bien remplie, la fonction `AddAdminInDB()` est appelé :
+En cliquant sur **Créer l'administrateur** si le nom d'utilisateur et le mot de passe sont bien remplis, la fonction `AddAdminInDB()` est appelé :
 ```c#
 public string AddAdminInDB(string login, string password)
 {
@@ -1068,4 +1069,4 @@ public string DeleteAdminInDB(string admin)
 ```
 
 ## Conclusion
-L'application Medic Manager permet de simplifier la gestion des patients par les différents médecin de l'entreprise GSB, indépendamment du médecin prenant en charge le patient. 
+L'application Medic Manager permet de simplifier la gestion des patients par les différents médecins de l'entreprise GSB, indépendamment du médecin prenant en charge le patient. 

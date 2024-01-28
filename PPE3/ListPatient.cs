@@ -32,17 +32,20 @@ namespace PPE3
             bs.Filter = dataGridView1.Columns[0 & 1].HeaderText.ToString() + " LIKE '%" + textBox1.Text + "%'";
             dataGridView1.DataSource = bs;
         }
-
+        // Selection d'un patient en cliquant sur un ligne
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 & e.RowIndex < dataGridView1.RowCount - 1)
             {
+                // Selectionne les informations contenu dans la ligne selectionné
                 DataGridViewRow selectedRow = this.dataGridView1.Rows[e.RowIndex];
+                // encapsule dans des variables les différents informations contenu dans la ligne séléctionné
                 string nom = selectedRow.Cells["Nom"].Value.ToString();
                 string prenom = selectedRow.Cells["prenom"].Value.ToString();
                 DateTime naissance = (DateTime)selectedRow.Cells["date_de_naissance"].Value;
                 string sexe = selectedRow.Cells["sexe"].Value.ToString();
                 long no_secu = (long)selectedRow.Cells["numero_de_securite_social"].Value;
+                // Créer un objet de la classe Patient
                 Patient patient = new Patient(nom, prenom, naissance, sexe, no_secu);
                 this.selectedPatient = patient;
 
@@ -62,6 +65,7 @@ namespace PPE3
 
         private void select_button_Click(object sender, EventArgs e)
         {
+            // Si un patient est selectionné, ouvrir son profile
             if (selectedPatient != null)
             {
                 PatientProfile patientProfile = new PatientProfile(selectedPatient, medecin);

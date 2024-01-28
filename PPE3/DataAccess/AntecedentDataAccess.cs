@@ -31,11 +31,13 @@ namespace PPE3
                 }
             }
         }
+        // Importation des antécédents d'un patient
         public DataTable SelectPatientAntecedantsFromDb(Patient patient)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
+                // Requete SQL important les données antécédants selon la clé primaire du patient
                 string query = "SELECT libelle_ant AS libelle FROM antecedent WHERE id_pat = @id_pat";
                 using (MySqlCommand command = new MySqlCommand(query, conn))
                 {
@@ -43,6 +45,7 @@ namespace PPE3
                     command.Parameters.AddWithValue("@id_pat", dataAccess.GetPatientIdFromDB(patient));
                     MySqlDataAdapter adapter = new MySqlDataAdapter(command);
                     DataTable dt = new DataTable();
+                    // Créer une table de données contenants toutes les lignes importées
                     adapter.Fill(dt);
                     conn.Close();
                     return dt;
@@ -65,29 +68,30 @@ namespace PPE3
                     return result;
                 }
             }
-        }
+        } 
+        // ajout d'un antécedent dans la base de donnée
         public string AddAntecedantInDB(string libelle, Patient patient)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
+                // Requete ajoutant un antécedent dans la table antecedent
                 string query = "INSERT INTO antecedent (libelle_ant, id_pat) VALUES (@libelle, @id_pat)";
                 using (MySqlCommand command = new MySqlCommand(query, conn))
                 {
                     PatientDataAccess dt = new();
+                    // Récupération de l'ID du patient pour l'ajouter à la table antecedant
                     int id_pat = (int)dt.GetPatientIdFromDB(patient);
                     command.Parameters.AddWithValue("@libelle", libelle);
                     command.Parameters.AddWithValue("@id_pat", id_pat);
+                    // Execution de la requete
                     int result = command.ExecuteNonQuery();
                     conn.Close();
                     if (result < 0)
                     {
                         return "Error";
                     }
-                    else
-                    {
-                        return "Success";
-                    }
+                    return "Success";
                 }
             }
         }

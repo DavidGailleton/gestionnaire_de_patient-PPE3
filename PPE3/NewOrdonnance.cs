@@ -31,12 +31,15 @@ namespace PPE3
             Functions fun = new Functions();
             fun.Search(Seqrch_textBox, dataGridView1);
         }
-
+        // Importation d'une ordonnance dans la base de données et ouverture de celle ci
         private void button1_Click(object sender, EventArgs e)
         {
+            // Création d'un objet de la classe ordonnance
             Ordonnance ordonnance = new(this.posologie_richTextBox.Text.ToString(), (int)numericUpDown1.Value, this.Instruction_richTextBox.Text.ToString(), DateTime.Now, this.patient, this.selectedMedic, this.medecin);
             OrdonnanceDataAccess oda = new();
+            // appel de la fonction AddORdonnanceInDB permettant d'ajouter une nouvelle ordonnance dans la base de données
             string result = oda.AddOrdonnanceInDB(ordonnance);
+            // Si la requete SQL c'est dérouler correctement, alors l'ordonnance s'affichera
             if (result == "Success")
             {
                 MessageBox.Show("Ordonnance cree");

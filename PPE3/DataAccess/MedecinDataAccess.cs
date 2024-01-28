@@ -51,21 +51,25 @@ namespace PPE3.DataAccess
                 }
             }
         }
+        // Ajout d'un medecin
         public string AddMedecinInDB(Medecin medecin, string password)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
+                // Requete SQL permettant d'importer la valeur contenu dans archive_med selon l'identifiant entré dans le formulaire d'inscription
                 string query = "SELECT archive_med FROM medecin WHERE login_med = @login";
                 using (MySqlCommand command1 = new MySqlCommand(query, conn))
                 {
                     command1.Parameters.AddWithValue("@login", medecin.Login);
 
                     short result1;
+                    // Dans le cas ou la requete ne retourne aucune valeur (c'est a dire que l'utilisateur n'existe pas) inscrire -1 dans la variable result1
                     if (command1.ExecuteScalar() == DBNull.Value)
                     {
                         result1 = -1;
                     }
+                    // Si l'utilisateur existe, inscrire la valeur retourner par la requete dans la variable result1
                     else
                     {
                         result1 = Convert.ToInt16(command1.ExecuteScalar());
@@ -73,6 +77,7 @@ namespace PPE3.DataAccess
 
                     switch (result1)
                     {
+                        // Si l'utilisateur existe mais est archivé, La requete désarchivera l'utilisateur, modifiera son mot de passe et obligera l'utilisateur a se connecter lors de sa prochaine connexion
                         case 1:
                             string query3 =
                                 "UPDATE medecin SET archive_med = 0, password_med = @password, first_connection_med = 1 WHERE login_med = @login";
@@ -88,9 +93,11 @@ namespace PPE3.DataAccess
                                 }
                                 return "Success";
                             }
+                        // Si l'utilisateur existe mais qu'il n'est pas archivé, l'administrateur sera prévenu que l'utilisateur existe déja et ne modifiera rien à la table medecin
                         case 0:
                             MessageBox.Show("Utilisateur déja existant");
                             return "Error";
+                        // si L'utilisateur n'existe pas dans la table medecin, La requete ajoutera l'utilisateur à la table medecin
                         case -1:
                             string query2 = "INSERT INTO medecin (nom_med, prenom_med, naissance_med, login_med, password_med) VALUES (@nom, @prenom, @naissance, @login, @password)";
                             using (MySqlCommand command2 = new MySqlCommand(query2, conn))
@@ -108,8 +115,8 @@ namespace PPE3.DataAccess
                                 }
                                 return "Success";
                             }
-                            default:
-                                return "Error";
+                        default:
+                            return "Error";
                     }
                 }
             }
@@ -142,6 +149,7 @@ namespace PPE3.DataAccess
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
+                // Requete modifiant la valeur archive_med de la table medecin pour archiver l'utilisateur
                 string query = "UPDATE medecin SET archive_med = 1 WHERE login_med = @login";
                 using (MySqlCommand command = new MySqlCommand(query, conn))
                 {
@@ -173,7 +181,7 @@ namespace PPE3.DataAccess
                     command.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
                     int result = command.ExecuteNonQuery();
                     conn.Close();
-                    // Verifie si 
+                    // Verifie si le mot de passe a bien été mis à jour
                     if (result < 0)
                     {
                         return "Error";

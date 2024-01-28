@@ -65,11 +65,11 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(290, 117);
+            label3.Location = new Point(257, 117);
             label3.Name = "label3";
-            label3.Size = new Size(46, 20);
+            label3.Size = new Size(123, 20);
             label3.TabIndex = 15;
-            label3.Text = "Login";
+            label3.Text = "Nom d'utilisateur";
             // 
             // login_textBox
             // 

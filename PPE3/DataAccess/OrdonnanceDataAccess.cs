@@ -52,12 +52,13 @@ namespace PPE3.DataAccess
                 }
             }
         }
-
+        // Ajoute une nouvelle ordonnance dans la table ordonnance de la BDD
         public string AddOrdonnanceInDB(Ordonnance ordonnance)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))
             {
                 conn.Open();
+                // Requete SQL ajoutant un ligne dans la table ordonnance de la bdd
                 string query = "INSERT INTO ordonnance (posologie_ord, date_creation_ord, duree_ord, instruction_ord, id_med, id_pat, id_medic) VALUES (@posologie, @date_creation, @duree, @instruction, @id_med, @id_pat, @id_medic)";
                 using (MySqlCommand command = new MySqlCommand(query, conn))
                 {

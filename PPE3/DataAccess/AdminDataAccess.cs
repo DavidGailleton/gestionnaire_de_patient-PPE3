@@ -85,8 +85,8 @@ namespace PPE3.DataAccess
                 using (MySqlCommand command1 = new MySqlCommand(query1, conn))
                 {
                     command1.Parameters.AddWithValue("@login", login);
-                    string result = Convert.ToString(command1.ExecuteScalar());
-                    if (result != null && BCrypt.Net.BCrypt.EnhancedVerify(password, result) == true)
+                    string hashPassword = Convert.ToString(command1.ExecuteScalar());
+                    if (hashPassword != null && BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword) == true)
                     {
                         return "Success";
                     }

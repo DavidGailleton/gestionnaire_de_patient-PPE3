@@ -1,3 +1,25 @@
+# Compte rendu du PPE3 - David GAILLETON
+## Contexte
+### Description du laboratoire GSB
+#### Le secteur d'activité
+L’industrie pharmaceutique est un secteur très lucratif dans lequel le mouvement de fusion acquisition est très fort. Les regroupements de laboratoires ces dernières années ont donné naissance à des entités gigantesques au sein desquelles le travail est longtemps resté organisé selon les anciennes structures.
+
+Des déboires divers récents autour de médicaments ou molécules ayant entraîné des complications médicales ont fait s'élever des voix contre une partie de l'activité des laboratoires : la visite médicale, réputée être le lieu d' arrangements entre l'industrie et les praticiens, et tout du moins un terrain d'influence opaque.
+
+#### L'entreprise
+Le laboratoire Galaxy Swiss Bourdin (GSB) est issu de la fusion entre le géant américain Galaxy (spécialisé dans le secteur des maladies virales dont le SIDA et les hépatites) et le conglomérat européen Swiss Bourdin (travaillant sur des médicaments plus conventionnels), lui même déjà union de trois petits laboratoires .
+
+En 2009, les deux géants pharmaceutiques ont uni leurs forces pour créer un leader de ce secteur industriel. L'entité Galaxy Swiss Bourdin Europe a établi son siège administratif à Paris.
+
+Le siège social de la multinationale est situé à Philadelphie, Pennsylvanie, aux Etats-Unis.
+
+La France a été choisie comme témoin pour l'amélioration du suivi de l'activité de visite
+
+### L'application mis en place
+
+L'application présenté dans ce compte rendu permet de répondre à la problématique de gestion des patient par les médecins du laboratoire.
+
+Le suivie des patients étant parfois compliqué, notamment sur les antécédents, les allergie et les anciennes ordonnances, les médecins pourront avoir un aperçu sur les informations du patient facilement. 
 ## Mise en place
 ### Prérequis
 #### .NET Core
@@ -21,7 +43,7 @@ Il est installable depuis cette page :
 [https://visualstudio.microsoft.com/fr/](https://visualstudio.microsoft.com/fr/)
 
 Il bien installer la version **Community 2022** 
-![[Capture d’écran 2024-01-26 130000.jpg]]
+![Capture d’écran 2024-01-26 130000.jpg](img%2FCapture%20d%92%E9cran%202024-01-26%20130000.jpg)
 
 Un fois installé, **Visual Studio Installer** vas ce lancer et vous proposer de choisir une "charges de travail", sélectionnez **Développement .NET Desktop** et cliquez sur installer ou modifier en bas a droite :
 ![[Capture d’écran 2024-01-26 130532.jpg]]
@@ -69,8 +91,38 @@ Enfin, descendez en bas de la page et cliquez sur **Importer**:
 La Base de données est dorénavant prête à être utilisée par l'application.
 ## Structure de la base de donnée
 ### MCD
-![[Pasted image 20240125211843.png]]
+![[Pasted image 20240128193519.png]]
+Pour avoir plus d'informations sur le MCD, vous pouvez installer l'application **JMerise** et ouvrir le fichier PPE3.MCD disponible à la racine du projet.
 ## L'application
+
+### Lancer l'application
+Pour lancer l'application démarrer **Visual Studio** puis cliquez sur **Ouvrir un dossier local** :
+![[visualstudio_openproject.png]]
+
+En suite, dirigé vous à la racine du projet précédemment téléchargé et cliqué sur **sélectionner un dossier** :
+![[visualstudio_openprojectfile.png]]
+
+Une fois le projet ouvert, sélectionnez le fichier PPE3.slw dans l'explorateur de solution à droite de la page  
+![[visualstudio_opensln.png]]
+L'explorateur de solution devrait s'afficher de cette manière :
+![[Pasted image 20240128200908.png]]
+Il est possible d'accéder a la vue d'une page en **double cliquant** sur un fichier, et d'accéder au code de celui ci en cliquant sur la touche **F7** du clavier.
+
+Pour démarrer le programme il suffit de cliquer sur l'icone de démarrage nommé **PPE3** :
+![[visualstudio_startprogram.png]]
+### Sécurité
+Afin de ne pas enregistrer les mot de passe des utilisateurs et administrateurs en claire dans la base de données, il est impératif des le crypter au préalable.
+Pour hasher les mot de passe l'application utilise l'algorithme de **BCrypt**. Cet algorithme permet de crypter un mot de passe sans qu'il soit possible de le décrypter. 
+
+L'encryptions se fait via un fonction proposé par BCrypt demandant 2 paramètre, le mot de passe à hasher et un indice permettant de plus ou moins "encrypter" le mot de passe :
+```c#
+BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13)
+```
+
+Pour vérifier si le mot de passe est correct, un autre fonction est utilisé. Cette fonction prend 2 paramètres, le mot de passe à vérifier et le mot de passe hashé, le mot de passe est bien celui qui a été utilisé pour faire le hash, la fonction retournera `true` :
+```c#
+BCrypt.Net.BCrypt.EnhancedVerify(password, hashPassword)
+```
 ### Page de connexion
 ![[Pasted image 20240127115542.png]]
 La page de connexion permet d'accéder à l'application destiné aux médecins, accessible en sélectionnant **Utilisateur**.  
@@ -300,5 +352,662 @@ public string VerifyPassword(string login, string password)
 }
 ```
 Si toutes les conditions sont correcte, alors le mot de passe va être mis à jour via la fonction `UpdateMedecinPasswordInDB` :
+```c#
+// met à jour le mot de passe
+public string UpdateMedecinPasswordInDB(string login, string password)
+{
+    using (MySqlConnection conn = new(connectionString))
+    {
+        conn.Open();
+        // Requete mettant à jour le mot de passe du medecin et change l'etat de la colonne first_connection_med afin de confirmer que l'utilisateur à bien modifier son mot de passe 
+        string query = "UPDATE medecin SET password_med = @password, first_connection_med = 0 WHERE login_med = @login";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            command.Parameters.AddWithValue("@login", login);
+            command.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
+            int result = command.ExecuteNonQuery();
+            conn.Close();
+            // Verifie si le mot de passe a bien été mis à jour
+            if (result < 0)
+            {
+                return "Error";
+            }
+            else
+            {
+                return "Success";
+            }
+        }
+    }
+}
+```
 
+Une fois mis à jour, l'utilisateur peut se connecter sans problème
 ### Base Utilisateur
+Un fois connecter vous tomberez sur une interface permettant d'accéder aux différents menu de l'application : 
+![[Pasted image 20240128101532.png]]
+
+#### Ajouter un patient 
+La page d'ajout d'un nouveau patient ce présente comme ceci :
+![[Pasted image 20240128105058.png]]
+
+Une fois les différentes cases remplie, vous pouvez appuyer sur **créer** ce qui exécutera cette méthode :
+```c#
+ // créer un nouveau patient
+ private void create_button_Click(object sender, EventArgs e)
+ {
+     // Vérifie si toutes les cases sont remplie
+     if (surname_textbox.Text != "" && name_textbox.Text != "" && sexe == "h" | sexe == "f")
+     {
+         PatientDataAccess dataAccess = new PatientDataAccess();
+         // Créer un objet de la classe Patient
+         Patient patient = new Patient(surname_textbox.Text, name_textbox.Text, birthday_DateTimePicker.Value.Date, sexe, (long)long.Parse(noSecu_TextBox.Text));
+         // Execute la fonction AddPatientInDB pour créer un nouveau patient
+         string result = dataAccess.AddPatientInDB(patient);
+         // Si la création c'est bien passé, ouvrir la page de profile du patient créé
+         if (result == "Success")
+         {
+             PatientProfile pp = new(patient, medecin);
+             pp.Show();
+             this.Close();
+         }
+         else
+         {
+             MessageBox.Show("Une erreur c'est produite");
+         }
+     }
+ }
+```
+
+Cette méthode appel la fonction `AddPatientInDB` :
+```c#
+// Ajoute un nouveau Patient dans la table patient
+public string AddPatientInDB(Patient patient)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete SQL permettant d'ajouter un nouveau patient au seins de la table patient
+        string query = "INSERT INTO patient (nom_pat, prenom_pat, naissance_pat, sexe_pat, no_secu_pat) VALUES (@nom, @prenom, @naissance, @sexe, @no_secu)";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            command.Parameters.AddWithValue("@nom", patient.Nom);
+            command.Parameters.AddWithValue("@prenom", patient.Prenom);
+            command.Parameters.AddWithValue("@naissance", patient.Naissance);
+            command.Parameters.AddWithValue("@sexe", patient.Sexe);
+            command.Parameters.AddWithValue("@no_secu", patient.NoSecu);
+            
+            // Execution de la requete SQL
+            int result = command.ExecuteNonQuery();
+            conn.Close();
+            // Retourne un erreur si la requete n'affecte aucune ligne, sinon retourne "Success"
+            if (result < 0)
+            {
+                return "Error";
+            }
+            else
+            {
+                return "Success";
+            }
+        }
+    }
+}
+```
+
+Une fois le patient créé, la page de profile du patient va s'ouvrir.
+
+#### Liste des patients existant
+Dans le cas ou le patient a déjà été créé, il est possible de simplement le rechercher en cliquant sur **Liste patient** sur la page d'accueil.
+La page listant les patient se présente de cette manière :
+![[Pasted image 20240128112005.png]]
+##### Search()
+Cette vue propose une boite de recherche qui utilise la fonction `Search()` utilisé dans d'autres vue :
+```c#
+// Recherche une donnée présente dans la premiere colonne d'un tableau en fonction d'une boite de texte
+public void Search(System.Windows.Forms.TextBox textBox, DataGridView dataGridView)
+{
+    BindingSource bs = new();
+    bs.DataSource = dataGridView.DataSource;
+    // Cherche au seins de la première colonne du tableau, une chaine de caractères présente n'importe où dans une autre chaine de caractères
+    bs.Filter = dataGridView.Columns[0].HeaderText.ToString() + " LIKE '%" + textBox.Text + "%'";
+    // Modifie le tableau pour afficher uniquement les lignes recherchées
+    dataGridView.DataSource = bs;
+}
+```
+
+##### Importation du tableau
+Pour importer le tableau on utilise la fonction `SelectPatientsFromDB()`:
+```c#
+// Retourne tous les patients contenue dans la Table Patient
+public DataTable SelectPatientsFromDB()
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete SQL important les différents éléments nécessaire à la création d'un objet de classe patient
+        string query = "SELECT nom_pat AS nom, prenom_pat AS prenom, naissance_pat AS date_de_naissance, sexe_pat AS sexe, no_secu_pat AS numero_de_securite_social FROM patient";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            DataTable dt = new DataTable();
+            // Remplie une table de données contenant toutes les données importé de la table patient
+            adapter.Fill(dt);
+            conn.Close();
+            return dt;
+        }
+    }
+}
+```
+##### Sélection d'un patient
+Pour sélectionner un patient il suffit simplement de cliquer sur une case du tableau, puis la ligne sera contenu dans un objet de la classe patient comme ceci :
+```c#
+// Selection d'un patient en cliquant sur un ligne
+private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+{
+    if (e.RowIndex >= 0 & e.RowIndex < dataGridView1.RowCount - 1)
+    {
+        // Selectionne les informations contenu dans la ligne selectionné
+        DataGridViewRow selectedRow = this.dataGridView1.Rows[e.RowIndex];
+        // encapsule dans des variables les différents informations contenu dans la ligne séléctionné
+        string nom = selectedRow.Cells["Nom"].Value.ToString();
+        string prenom = selectedRow.Cells["prenom"].Value.ToString();
+        DateTime naissance = (DateTime)selectedRow.Cells["date_de_naissance"].Value;
+        string sexe = selectedRow.Cells["sexe"].Value.ToString();
+        long no_secu = (long)selectedRow.Cells["numero_de_securite_social"].Value;
+        // Créer un objet de la classe Patient
+        Patient patient = new Patient(nom, prenom, naissance, sexe, no_secu);
+        this.selectedPatient = patient;
+
+    }
+}
+```
+
+##### Bouton Sélectionner
+Le bouton sélectionner permet d'accéder au profile du patient :
+```c#
+    private void select_button_Click(object sender, EventArgs e)
+    {
+        // Si un patient est selectionné, ouvrir son profile
+        if (selectedPatient != null)
+        {
+            PatientProfile patientProfile = new PatientProfile(selectedPatient, medecin);
+            patientProfile.Show();
+            this.Close();
+        }
+        else
+        {
+            MessageBox.Show("Aucun patient selectionné");
+        }
+    }
+}
+```
+
+#### Profile du patient
+![[Pasted image 20240128155200.png]]
+Le profile du patient permet de voire les différentes allergies et antécédents du patient. Ces informations sont importer depuis la tables `etre` pour les allergies, la table `etre` contenant les clés primaires de la table allergie et de la table patient. Pour les antécédents le fonctionnement est différents, c'est directement la table `Antecedant` qui contient la clé primaire du patient car les antécédents sont unique selon le patient contrairement aux allergies qui peut être attribué a plusieurs patient.
+##### Importation des antécédents 
+L'importations des antécédents ce fait de cette manière :
+```c#
+// Importation des antécédents d'un patient
+public DataTable SelectPatientAntecedantsFromDb(Patient patient)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete SQL important les données antécédants selon la clé primaire du patient
+        string query = "SELECT libelle_ant AS libelle FROM antecedent WHERE id_pat = @id_pat";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            PatientDataAccess dataAccess = new PatientDataAccess();
+            command.Parameters.AddWithValue("@id_pat", dataAccess.GetPatientIdFromDB(patient));
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            DataTable dt = new DataTable();
+            // Créer une table de données contenants toutes les lignes importées
+            adapter.Fill(dt);
+            conn.Close();
+            return dt;
+        }
+    }
+}
+```
+
+##### Importation des Allergie
+```c#
+// Importe les allergie du patient
+public DataTable SelectPatientAllergiesFromDb(Patient patient)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete SQL important les allergies depuis la table etre en fonction de la clé primaire de l'utilisateur en joignant la table etre et allergie
+        string query = "SELECT libelle_all AS libelle FROM etre INNER JOIN allergie ON allergie.id_all = etre.id_all WHERE id_pat = @id_pat";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            PatientDataAccess dataAccess = new PatientDataAccess();
+            command.Parameters.AddWithValue("@id_pat", dataAccess.GetPatientIdFromDB(patient));
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);
+            conn.Close();
+            return dt;
+        }
+    }
+}
+```
+
+#### Ajout d'un antécédant
+Pour ajouter un antécédant, il faut cliquer sur **Ajouter** en dessous du tableau des antécédents.
+Ainsi une nouvelle page vas s'ouvrir :
+![[Pasted image 20240128174511.png]]
+Une fois sur cette page, vous pouvez nommer le nom de l'antécédent et ajouter des médicaments incompatible comme ci dessus.
+Lors de l'ajout, cette fonction sera exécuté :
+```c#
+// ajout d'un antécedent dans la base de donnée
+public string AddAntecedantInDB(string libelle, Patient patient)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete ajoutant un antécedent dans la table antecedent
+        string query = "INSERT INTO antecedent (libelle_ant, id_pat) VALUES (@libelle, @id_pat)";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            PatientDataAccess dt = new();
+            // Récupération de l'ID du patient pour l'ajouter à la table antecedant
+            int id_pat = (int)dt.GetPatientIdFromDB(patient);
+            command.Parameters.AddWithValue("@libelle", libelle);
+            command.Parameters.AddWithValue("@id_pat", id_pat);
+            // Execution de la requete
+            int result = command.ExecuteNonQuery();
+            conn.Close();
+            if (result < 0)
+            {
+                return "Error";
+            }
+            else
+            {
+                return "Success";
+            }
+        }
+    }
+}
+```
+
+Vous pouvez ajouter autant d'antécédents que voulu avant de retourner sur le profile en cliquant sur **Retourner en arrière**.
+
+#### Ajout d'une allergie
+La page d'ajout d'allergie ce présente de cette manière :
+![[Pasted image 20240128180609.png]]
+
+Elle permet de lier une allergie au patient sur la table `etre` de la base de données, mais aussi d'ajouter une allergie non disponible sur la table `allergie`.
+##### Ajouter une nouvelle allergie sur la table `allergie`
+Pour ajouter une nouvelle allergie sur la table `allergie` il suffit de remplir la boite de texte à droite du bouton **Ajouter une nouvelle allergie** puis de cliquer sur cette dernière. Elle sera en suite aujouter à la table allergie via la requete SQL suivante :
+```sql
+INSERT INTO allergie (libelle_all) VALUES (@libelle)
+```
+
+Pour affecter une allergie au patient il faut en suite la sélectionner sur la table de données et cliquer sur **Ajouter l allergie**. Ce bouton appelera la fonction `AddAllergieToPatientInDB()` :
+```c#
+public string AddAllergieToPatientInDB(Allergie allergie, Patient patient)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete SQL ajoutant l'id primaire de l'allergie et du patient dans la table etre
+        string query = "INSERT INTO etre (id_all, id_pat) VALUES (@id_all, @id_pat)";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+	        // Ajoute de l'identifiant Allergie à la requete
+            command.Parameters.AddWithValue("@id_all", GetAllergieIdFromDB(allergie));
+            PatientDataAccess dt = new();
+            // Ajout de l'identifiant du patient à la requete
+            command.Parameters.AddWithValue("@id_pat", dt.GetPatientIdFromDB(patient));
+            // Execution de la requete
+            int result = command.ExecuteNonQuery();
+            conn.Close();
+            if (result < 0)
+            {
+                return "Error";
+            }
+            else
+            {
+                return "Success";
+            }
+        }
+    }
+}
+```
+
+#### Création d'un ordonnance
+La création d'une ordonnance ce fait depuis le profile du patient. En cliquant sur **Nouvelle ordonnance**, une nouvelle page s'ouvre :
+![[Pasted image 20240128160609.png]]
+
+Elle permet de sélectionner un médicament selon les médicaments contenu dans la base `medicament`, de remplir la posologie, la durée du traitement et les instructions. Une fois les infos nécessaires remplie, il suffit de cliquer sur le bouton créé et un objet de la classe `ordonnance` sera créer pour faire appel a la fonction `AddOrdonnanceInDB` :
+```c#
+// Importation d'une ordonnance dans la base de données et ouverture de celle ci
+private void button1_Click(object sender, EventArgs e)
+{
+    // Création d'un objet de la classe ordonnance
+    Ordonnance ordonnance = new(this.posologie_richTextBox.Text.ToString(), (int)numericUpDown1.Value, this.Instruction_richTextBox.Text.ToString(), DateTime.Now, this.patient, this.selectedMedic, this.medecin);
+    OrdonnanceDataAccess oda = new();
+    // appel de la fonction AddORdonnanceInDB permettant d'ajouter une nouvelle ordonnance dans la base de données
+    string result = oda.AddOrdonnanceInDB(ordonnance);
+    // Si la requete SQL c'est dérouler correctement, alors l'ordonnance s'affichera
+    if (result == "Success")
+    {
+        MessageBox.Show("Ordonnance cree");
+        OrdonnanceView ov = new(ordonnance);
+        ov.Show();
+        this.Close();
+    }
+}
+```
+
+##### `AddOrdonnanceInDB()`
+La fonction `AddOrdonnanceInDB()` fonctionne de cette manière :
+```c#
+// Ajoute une nouvelle ordonnance dans la table ordonnance de la BDD
+public string AddOrdonnanceInDB(Ordonnance ordonnance)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete SQL ajoutant un ligne dans la table ordonnance de la bdd
+        string query = "INSERT INTO ordonnance (posologie_ord, date_creation_ord, duree_ord, instruction_ord, id_med, id_pat, id_medic) VALUES (@posologie, @date_creation, @duree, @instruction, @id_med, @id_pat, @id_medic)";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            PatientDataAccess patientDataAccess = new PatientDataAccess();
+            MedecinDataAccess medecinDataAccess = new MedecinDataAccess();
+            MedicamentDataAccess medicamentDataAccess = new MedicamentDataAccess();
+            command.Parameters.AddWithValue("@posologie", ordonnance.Posologie);
+            command.Parameters.AddWithValue("date_creation", ordonnance.Date_creation);
+            command.Parameters.AddWithValue("@duree", ordonnance.Duree);
+            command.Parameters.AddWithValue("@instruction", ordonnance.Instruction);
+            command.Parameters.AddWithValue("@id_med", medecinDataAccess.GetMedecinIdFromDB(ordonnance.Medecin));
+            command.Parameters.AddWithValue("@id_pat", patientDataAccess.GetPatientIdFromDB(ordonnance.Patient));
+            command.Parameters.AddWithValue("@id_medic", medicamentDataAccess.GetMedicamentIdFromDB(ordonnance.Medicament));
+            int result = command.ExecuteNonQuery();
+            conn.Close();
+            if (result < 0)
+            {
+                return "Error";
+            }
+            else
+            {
+                return "Success";
+            }
+        }
+    }
+}
+```
+
+Une fois créé, l'ordonnance vas s'afficher.
+
+#### Historique des médicaments
+Une autre manière d'afficher une ordonnance est de se diriger vers l'historique des médicaments depuis la page d'accueil.
+La page se présente de la même manière que la [liste des patients](#### Liste des patients existant) et fonctionne de la même manière :
+![[Pasted image 20240128165725.png]]
+#### Affichage d'un ordonnance
+![[Pasted image 20240128165824.png]]
+L'ordonnance se présente de manière simple en affichant les informations a la manière d'une réel ordonnance.
+La fonction intéressante de cette page est de pouvoir enregistrer l'ordonnance au format pdf. Cette fonction est rendu possible grâce a l'extension **IText7** en permet entre autre de créer et d'agencer des fichier PDF de manière simple.
+La méthode permettant d'enregistrer l'ordonnance au format pdf fonctionne de cette manière :
+```c#
+// Permet d'enregistrer l'ordonnance au format PDF
+private void print_button_Click(object sender, EventArgs e)
+{
+    SaveFileDialog saveFileDialog = new SaveFileDialog();
+    // Donne un nom par défaut au fichier qui sera enregistrer
+    saveFileDialog.FileName = "Ordonnance_" + ordonnance.Patient.Nom + "_" + ordonnance.Patient.Prenom + "_" + ordonnance.Date_creation.Year.ToString() + "_" + ordonnance.Date_creation.Month.ToString() + "_" + ordonnance.Date_creation.Day.ToString();
+    // Permet d'afficher seulement les fichiers pdf lors de l'enregistrement
+    saveFileDialog.Filter = "PDF Files|*.pdf";
+    // Le fichier sera enristrer au format pdf par défaut
+    saveFileDialog.DefaultExt = "pdf";
+    // l'emplacement par défaut sera le dossier téléchargement de l'utilisateur
+    saveFileDialog.InitialDirectory = @"%Download%";
+    if (saveFileDialog.ShowDialog() == DialogResult.OK)
+    {
+        // enregistre dans une variable l'emplacement et le nom du fichier à enregistrer
+        string fileName = Path.GetFullPath(saveFileDialog.FileName);
+
+        using (PdfWriter writer = new PdfWriter(fileName))
+        {
+            using (PdfDocument pdf = new PdfDocument(writer))
+            {
+                Document document = new Document(pdf);
+
+                // Création d'objet Paragraph destiné à etre ajouté dans l'ordonnance
+                Paragraph medecinNom = new Paragraph("Docteur " + ordonnance.Medecin.Nom);
+                Paragraph patientNom = new Paragraph(genre + " " + ordonnance.Patient.Nom + " " + ordonnance.Patient.Prenom);
+                Paragraph date = new Paragraph("Le " + ordonnance.Date_creation.Day + " " + ordonnance.Date_creation.Month + " " + ordonnance.Date_creation.Year);
+                Paragraph medic = new Paragraph(ordonnance.Medicament.Libelle + ", " + ordonnance.Posologie + " - " + ordonnance.Instruction + " " + ordonnance.Duree + " jours");
+
+                // ajout des différents paragraphe dans l'ordonnance avec leurs emplacements
+                document.Add(medecinNom.SetTextAlignment(TextAlignment.LEFT));
+                document.Add(date.SetTextAlignment(TextAlignment.RIGHT));
+                document.Add(patientNom.SetTextAlignment(TextAlignment.LEFT));
+                document.Add(medic.SetTextAlignment(TextAlignment.LEFT));
+
+                // Enregistrement du PDF
+                document.Close();
+            }
+        }
+    }
+}
+```
+Un boite de dialogue s'ouvrira donc pour choisir l'emplacement et le nom du fichier à enregistrer :
+![[Pasted image 20240128171235.png]]
+
+Une fois enregistrer vous pouvez enregistré, vous pouvez l'imprimer avec le logiciel de votre choix comme Adobe Acrobat par exemple.
+
+#### Gestion de stock de médicaments
+Ce logiciel permet également faire une gestion de stock de médicaments, bien que cet aspect pourrait être améliorer.
+Cette page est accessible depuis la page d'accueil via le bouton **Gerer le stock de médicaments**.
+
+La page se présente de cette manière :
+![[Pasted image 20240128171904.png]]
+
+Cette page utilise 2 requête sql :
+Importation des médicaments autorisé :
+```sql
+SELECT libelle_medic AS libelle, contre_indication_medic AS contre_indication, qte_medic AS Quantite FROM medicament
+```
+
+Importation des médicaments en stock :
+```sql
+SELECT libelle_medic AS libelle, contre_indication_medic AS contre_indication, qte_medic AS quantité FROM medicament WHERE qte_medic > 0
+```
+
+Elle permet donc d'ajouter ou de supprimer du stock d'un médicament sélectionné, pour ce faire elle utilise des requêtes SQL équivalente :
+```sql
+# Ajout de médicament dans le stock
+UPDATE medicament SET qte_medic = qte_medic + @quantity WHERE libelle_medic = @libelle
+```
+```sql
+# retrait de médicament dans le stock
+UPDATE medicament SET qte_medic = qte_medic - @quantity WHERE libelle_medic = @libelle
+```
+
+
+### Base Administrateur
+La page principale de l'administrateur ce présente comme ceci :
+![[Pasted image 20240128181829.png]]
+
+#### Gestion des utilisateur
+L'ajout et suppression des médecins (utilisateur) fonctionne avec un système d'archive transparente pour l'administrateur. Etant donné que la **clé primaire** d'un médecin peut être liée à des ordonnances, elle ne peut pas être supprimé sans supprimer les ordonnance qu'il avait précédemment créé.
+Pour palier à ce soucis, le médecin n'est jamais supprimé de la table `medecin`, mais simplement archivé grâce à une données booléenne nommé `archive_med` dans la table `medecin`. 
+
+Dans le cas ou le médecin est "supprimé", le programme vas simplement changer la valeur `archive_med` pour "l'archiver" afin qu'il ne soit plus visible et qu'il ne puisse plus se connecter.
+
+Imaginons qu'un utilisateur précédemment archivé revienne dans l'entreprise, la fonction `AddMedecinInDB()` va en premier lieu vérifier s'il n'existe pas déjà, et si c'est le cas, simplement modifier la valeur `archive_med` et son mot de passe afin qu'il soit visible et qu'il puisse se connecter.
+##### Ajout d'un utilisateur
+En cliquant sur **Ajouter un utilisateur** une nouvelle vue vas s'ouvrir :
+![[Pasted image 20240128183331.png]]
+Il faut simplement rentrer les information puis cliquer sur **Créer le medecin** (a noter que le mot de passe sera obligatoirement modifié lors de la première connexion de l'utilisateur).
+La création appellera la fonction `AddMedecinInDB()` :
+```c#
+public string AddMedecinInDB(Medecin medecin, string password)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete SQL permettant d'importer la valeur contenu dans archive_med selon l'identifiant entré dans le formulaire d'inscription
+        string query = "SELECT archive_med FROM medecin WHERE login_med = @login";
+        using (MySqlCommand command1 = new MySqlCommand(query, conn))
+        {
+            command1.Parameters.AddWithValue("@login", medecin.Login);
+
+            short result1;
+            // Dans le cas ou la requete ne retourne aucune valeur (c'est a dire que l'utilisateur n'existe pas) inscrire -1 dans la variable result1
+            if (command1.ExecuteScalar() == DBNull.Value)
+            {
+                result1 = -1;
+            }
+            // Si l'utilisateur existe, inscrire la valeur retourner par la requete dans la variable result1
+            else
+            {
+                result1 = Convert.ToInt16(command1.ExecuteScalar());
+            }
+
+            switch (result1)
+            {
+                // Si l'utilisateur existe mais est archivé, La requete désarchivera l'utilisateur, modifiera son mot de passe et obligera l'utilisateur a se connecter lors de sa prochaine connexion
+                case 1:
+                    string query3 =
+                        "UPDATE medecin SET archive_med = 0, password_med = @password, first_connection_med = 1 WHERE login_med = @login";
+                    using (MySqlCommand command3 = new MySqlCommand(query3, conn))
+                    {
+                        command3.Parameters.AddWithValue("@login", medecin.Login);
+                        command3.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
+                        int result3 = command3.ExecuteNonQuery();
+                        conn.Close();
+                        if (result3 < 0)
+                        {
+                            return "Error";
+                        }
+                        return "Success";
+                    }
+                // Si l'utilisateur existe mais qu'il n'est pas archivé, l'administrateur sera prévenu que l'utilisateur existe déja et ne modifiera rien à la table medecin
+                case 0:
+                    MessageBox.Show("Utilisateur déja existant");
+                    return "Error";
+                // si L'utilisateur n'existe pas dans la table medecin, La requete ajoutera l'utilisateur à la table medecin
+                case -1:
+                    string query2 = "INSERT INTO medecin (nom_med, prenom_med, naissance_med, login_med, password_med) VALUES (@nom, @prenom, @naissance, @login, @password)";
+                    using (MySqlCommand command2 = new MySqlCommand(query2, conn))
+                    {
+                        command2.Parameters.AddWithValue("@nom", medecin.Nom);
+                        command2.Parameters.AddWithValue("@prenom", medecin.Prenom);
+                        command2.Parameters.AddWithValue("@naissance", medecin.Naissance);
+                        command2.Parameters.AddWithValue("@login", medecin.Login);
+                        command2.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
+                        int result2 = command2.ExecuteNonQuery();
+                        conn.Close();
+                        if (result2 < 0)
+                        {
+                            return "Error";
+                        }
+                        return "Success";
+                    }
+                default:
+                    return "Error";
+            }
+        }
+    }
+    
+}
+```
+
+##### Suppression d'un utilisateur
+Pour supprimer un utilisateur il faut le sélectionner dans la table de données et cliquer sur le bouton **Supprimer un utilisateur**.
+Comme vu ci dessus, l'application ne vas pas réellement supprimer l'utilisateur mais simplement l'archiver via la fonction `ArchiveMedecinInDB()` :
+```c#
+public string ArchiveMedecinInDB(Medecin medecin)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete modifiant la valeur archive_med de la table medecin pour archiver l'utilisateur
+        string query = "UPDATE medecin SET archive_med = 1 WHERE login_med = @login";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            command.Parameters.AddWithValue("@login", medecin.Login);
+            int result = command.ExecuteNonQuery();
+            conn.Close();
+            if (result < 0)
+            {
+                return "Error";
+            }
+            else
+            {
+                return "Success";
+            }
+        }
+    }
+}
+```
+
+
+#### Gestion des Administrateurs
+Contrairement aux médecins, les administrateurs ne sont liée à aucune autre table, l'application vas donc supprimer totalement l'administrateur lors de la création de la table `admin`.
+##### Création d'un administrateur
+La page de création demande seulement un nom d'utilisateur et un mot de passe :
+![[Pasted image 20240128190700.png]]
+En cliquant sur **Créer l'administrateur** si le nom d'utilisateur et le mot de passe sont bien remplie, la fonction `AddAdminInDB()` est appelé :
+```c#
+public string AddAdminInDB(string login, string password)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // ajoute d'un nouvel administrateur dans le base de données
+        string query = "INSERT INTO admin (login_adm, password_adm) VALUES (@login, @password)";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            command.Parameters.AddWithValue("@login", login);
+            // Encryption du mot de passe avant de l'ajouter dans la base de données
+            command.Parameters.AddWithValue("@password", BCrypt.Net.BCrypt.EnhancedHashPassword(password, 13));
+            int result = command.ExecuteNonQuery();
+            conn.Close();
+            if (result < 0)
+            {
+                return "Error";
+            }
+            else
+            {
+                return "Success";
+            }
+        }
+    }
+}
+```
+
+##### Suppression d'un administrateur
+Comme pour la suppression d'utilisateur, il suffit de sélectionner un administrateur et de cliquer sur **Supprimer un administrateur** pour appeler la fonction `DeleteAdminInDB()` :
+```c#
+public string DeleteAdminInDB(string admin)
+{
+    using (MySqlConnection conn = new MySqlConnection(connectionString))
+    {
+        conn.Open();
+        // Requete SQL supprimant l'administrateur de la table admin
+        string query = "DELETE FROM admin WHERE login_adm = @login";
+        using (MySqlCommand command = new MySqlCommand(query, conn))
+        {
+            command.Parameters.AddWithValue("@login", admin);
+            int result = command.ExecuteNonQuery();
+            conn.Close();
+            if (result < 0)
+            {
+                return "Error";
+            }
+            else
+            {
+                return "Success";
+            }
+        }
+    }
+}
+```
+
+## Conclusion
+L'application Medic Manager permet de simplifier la gestion des patients par les différents médecin de l'entreprise GSB, indépendamment du médecin prenant en charge le patient. 

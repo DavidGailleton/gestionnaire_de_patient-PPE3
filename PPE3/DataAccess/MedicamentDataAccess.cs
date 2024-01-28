@@ -85,6 +85,7 @@ namespace PPE3.DataAccess
                 }
             }
         }
+
         public string AddMedicamentStockInDB(Medicament medicament, int quantity)
         {
             using (MySqlConnection conn = new MySqlConnection(connectionString))

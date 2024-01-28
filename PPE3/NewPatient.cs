@@ -37,17 +37,28 @@ namespace PPE3
         {
 
         }
-
+        // créer un nouveau patient
         private void create_button_Click(object sender, EventArgs e)
         {
-            if (surname_textbox.Text != null && name_textbox.Text != null && sexe == "h" | sexe == "f")
+            // Vérifie si toutes les cases sont remplie
+            if (surname_textbox.Text != "" && name_textbox.Text != "" && sexe == "h" | sexe == "f")
             {
                 PatientDataAccess dataAccess = new PatientDataAccess();
+                // Créer un objet de la classe Patient
                 Patient patient = new Patient(surname_textbox.Text, name_textbox.Text, birthday_DateTimePicker.Value.Date, sexe, (long)long.Parse(noSecu_TextBox.Text));
-                dataAccess.AddPatientInDB(patient);
-                PatientProfile pp = new(patient, medecin);
-                pp.Show();
-                this.Close();
+                // Execute la fonction AddPatientInDB pour créer un nouveau patient
+                string result = dataAccess.AddPatientInDB(patient);
+                // Si la création c'est bien passé, ouvrir la page de profile du patient créé
+                if (result == "Success")
+                {
+                    PatientProfile pp = new(patient, medecin);
+                    pp.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Une erreur c'est produite");
+                }
             }
         }
 

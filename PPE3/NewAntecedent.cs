@@ -58,7 +58,7 @@ namespace PPE3
 
             dt.Columns.Add(column);
 
-            foreach (Medicament medicament in medicaments)
+            foreach (Medicament medicament in this.medicaments)
             {
                 DataRow dataRow = dt.NewRow();
                 dataRow["Libelle"] = medicament.Libelle;
@@ -77,7 +77,6 @@ namespace PPE3
                 DataGridViewRow selectedRow = this.medic_dataGridView.Rows[e.RowIndex];
                 Medicament selectedMedic = new Medicament(selectedRow.Cells["libelle"].Value.ToString(), selectedRow.Cells["contre_indication"].Value.ToString(), (int)selectedRow.Cells["Quantite"].Value);
                 this.medicaments.Add(selectedMedic);
-                MessageBox.Show(medicaments.ToString());
                 UpdateSelectedDataGridView();
             }
         }

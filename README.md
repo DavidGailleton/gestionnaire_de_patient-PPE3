@@ -1,3 +1,5 @@
+Version portable [ici](https://raw.githubusercontent.com/DavidGailleton/gestionnaire_de_patient-PPE3/main/executable.zip)
+
 # Compte rendu du PPE3 - David GAILLETON
 ## Contexte
 ### Description du laboratoire GSB
@@ -122,14 +124,27 @@ Pour avoir plus d'informations sur le MCD, vous pouvez installer l'application *
 ## L'application
 
 ### Lancer l'application
+Pour lancer l'application démarré **Visual Studio** puis cliquez sur **Ouvrir un dossier local** :
 
-Pour démarrer l'application, il suffit d'accéder au dossier deploy :
+![visualstudio_openproject.png](img/visualstudio_openproject.png)
 
-![deployFile.png](img/deployFile.png)
+Ensuite, dirigé vous à la racine du projet précédemment téléchargé et cliqué sur **sélectionner un dossier** :
 
-Puis de cliquer sur le fichier `PPE3.exe` :
+![visualstudio_openprojectfile.png](img/visualstudio_openprojectfile.png)
 
-![clickPPE3exe.png](img/clickPPE3exe.png)
+Une fois le projet ouvert, sélectionnez le fichier PPE3.sln dans l'explorateur de solution à droite de la page  
+
+![visualstudio_opensln.png](img/visualstudio_opensln.png)
+
+L'explorateur de solution devrait s'afficher de cette manière :
+
+![SolutionExplorer.png](img/SolutionExplorer.png)
+
+Il est possible d'accéder à la vue d'une page en **double cliquant** sur un fichier, et d'accéder au code de celui-ci en cliquant sur la touche **F7** du clavier.
+
+Pour démarrer le programme il suffit de cliquer sur l'icône de démarrage nommé **PPE3** :
+
+![visualstudio_startprogram.png](img/visualstudio_startprogram.png)
 
 ### Sécurité
 Afin de ne pas enregistrer les mot de passe des utilisateurs et administrateurs en clair dans la base de données, il est impératif de le crypter au préalable.
@@ -777,8 +792,8 @@ public string AddOrdonnanceInDB(Ordonnance ordonnance)
 
 Une fois créé, l'ordonnance va s'afficher.
 
-#### Historique des ordonnances
-Une autre manière d'afficher une ordonnance est de se diriger vers l'historique des ordonnances depuis la page d'accueil.
+#### Historique des médicaments
+Une autre manière d'afficher une ordonnance est de se diriger vers l'historique des médicaments depuis la page d'accueil.
 La page se présente de la même manière que la [liste des patients](#liste-des-patients-existant) et fonctionne de la même manière :
 
 ![OrdonnanceHistoryForm.png](img/OrdonnanceHistoryForm.png)
@@ -850,29 +865,22 @@ La page se présente de cette manière :
 Cette page utilise 2 requête sql :
 Importation des médicaments autorisés :
 ```sql
-SELECT libelle_medic AS libelle, contre_indication_medic AS contre_indication, qte_medic AS Quantite 
-FROM medicament
+SELECT libelle_medic AS libelle, contre_indication_medic AS contre_indication, qte_medic AS Quantite FROM medicament
 ```
 
 Importation des médicaments en stock :
 ```sql
-SELECT libelle_medic AS libelle, contre_indication_medic AS contre_indication, qte_medic AS quantité 
-FROM medicament 
-WHERE qte_medic > 0
+SELECT libelle_medic AS libelle, contre_indication_medic AS contre_indication, qte_medic AS quantité FROM medicament WHERE qte_medic > 0
 ```
 
 Elle permet donc d'ajouter ou de supprimer du stock d'un médicament sélectionné, pour ce faire elle utilise des requêtes SQL équivalente :
 ```sql
 # Ajout de médicament dans le stock
-UPDATE medicament 
-SET qte_medic = qte_medic + @quantity 
-WHERE libelle_medic = @libelle
+UPDATE medicament SET qte_medic = qte_medic + @quantity WHERE libelle_medic = @libelle
 ```
 ```sql
 # retrait de médicament dans le stock
-UPDATE medicament 
-SET qte_medic = qte_medic - @quantity 
-WHERE libelle_medic = @libelle
+UPDATE medicament SET qte_medic = qte_medic - @quantity WHERE libelle_medic = @libelle
 ```
 
 
